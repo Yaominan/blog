@@ -77,11 +77,30 @@ repo_name: Yaominan.github.io
 # https://squidfunk.github.io/mkdocs-material/setup/setting-up-the-footer/#copyright-notice
 copyright: Peanut-1.0
 # [bottom-right corner]
-#extra:
+extra:
   # [添加社交网络图标和链接]
   # https://squidfunk.github.io/mkdocs-material/setup/setting-up-the-footer/#social-links
   # 搜索图标：https://squidfunk.github.io/mkdocs-material/reference/icons-emojis/#search
   # name 会在鼠标悬浮时提示
+  social: # icons
+    - name: GitHub | Yang-Xijie
+      icon: fontawesome/brands/github
+      link: https://github.com/Yang-Xijie
+    - name: Bilibili | 杨希杰619
+      icon: fontawesome/brands/bilibili
+      link: https://space.bilibili.com/24502827
+    - name: 小杰答疑群 QQ 796233390
+      icon: fontawesome/brands/qq
+      link: https://yang-xijie.github.io/ME/qq-groups/
+    - name: 小杰水群 QQ 824114857
+      icon: fontawesome/brands/qq
+      link: https://yang-xijie.github.io/ME/qq-groups/
+    - name: 小红书 | 杨希杰
+      icon: fontawesome/solid/images
+      link: https://www.xiaohongshu.com/user/profile/61be0cc10000000021024369
+    - name: 打赏支持
+      icon: fontawesome/solid/mug-saucer
+      link: https://yang-xijie.github.io/ME/support/
 
 # [Extensions]
 plugins:
