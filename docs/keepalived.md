@@ -59,7 +59,7 @@ virtual_ipaddress {
 ```
 2. keepalived双主机互为主备
 	规则：以一个虚拟ip分组归为同一个路由
-![[Pasted image 20250326094255.png]]
+![Screenshot](image/Pasted image 20250326094255.png)
 ```bash
 # 主节点配置
 global_defs {
