@@ -1,4 +1,9 @@
 site_name: blog
 nav:
   - Home: index.md
-  - About: about.md
+  - 文档:
+    - linux相关: linux.md
+    - 高可用: keepalived.md
+  - 关于我: me.md
+theme:
+  name: readthedocs
