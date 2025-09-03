@@ -1,0 +1,1370 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../MYSQL%2Bkeepalived%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%8F%AF%E7%94%A8/">
+      
+      
+        <link rel="next" href="../../ME/me/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>nginx相关配置 - blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+      <link rel="stylesheet" href="../../mkdocs/css/no-footer.css">
+    
+      <link rel="stylesheet" href="../../mkdocs/css/unordered-list-symbols.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#nginx" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="blog" class="md-header__button md-logo" aria-label="blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              nginx相关配置
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="orange"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yaominan/Yaominan.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yaominan.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../linux/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  文档
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ME/me/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  关于我
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="blog" class="md-nav__button md-logo" aria-label="blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    blog
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yaominan/Yaominan.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yaominan.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    文档
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            文档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    linux相关
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../keepalived/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    高可用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../%E4%B8%89%E5%89%91%E5%AE%A2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    linux三剑客
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MYSQL%2Bkeepalived%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%8F%AF%E7%94%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    mysql高可用配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    nginx相关配置
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    nginx相关配置
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.nginx部署方式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2nginxupdating" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.nginx配置多虚拟主机（updating。。。）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.nginx日志配置
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.nginx配置反向代理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5nginxupstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.nginx配置负载均衡(upstream)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6nginx-keepalived" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.nginx + keepalived
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.nginx + keepalived">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keepalived" class="md-nav__link">
+    <span class="md-ellipsis">
+      keepalived
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keepalivednginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      keepalived配置nginx重启
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ME/me/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    关于我
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      1.nginx部署方式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2nginxupdating" class="md-nav__link">
+    <span class="md-ellipsis">
+      2.nginx配置多虚拟主机（updating。。。）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.nginx日志配置
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4nginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      4.nginx配置反向代理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5nginxupstream" class="md-nav__link">
+    <span class="md-ellipsis">
+      5.nginx配置负载均衡(upstream)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6nginx-keepalived" class="md-nav__link">
+    <span class="md-ellipsis">
+      6.nginx + keepalived
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6.nginx + keepalived">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keepalived" class="md-nav__link">
+    <span class="md-ellipsis">
+      keepalived
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keepalivednginx" class="md-nav__link">
+    <span class="md-ellipsis">
+      keepalived配置nginx重启
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yaominan/Yaominan.github.io/edit/main/docs/Linux/NGINX.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="nginx">nginx部署、负载均衡、反向代理、高可用<a class="headerlink" href="#nginx" title="Permanent link">&para;</a></h1>
+<h2 id="1nginx">1.nginx部署方式<a class="headerlink" href="#1nginx" title="Permanent link">&para;</a></h2>
+<ol>
+<li>源码安装
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"># 编译前准备
+</span><span id="__span-0-2">Nginx是高度自由化的Web服务器，它的功能是由许多模块来支持。如果使用了某个模块，这个模块使用了一些类似zlib或OpenSSL等的第三方库，那么就必须先安装这些软件。centOS中使用yum直接在线安装，可以使用以下方法。
+</span><span id="__span-0-3">
+</span><span id="__span-0-4">（1）PCRE库
+</span><span id="__span-0-5">
+</span><span id="__span-0-6">PCRE库支持正则表达式。如果我们在配置文件nginx.conf中使用了正则表达式，那么在编译Nginx时就必须把PCRE库编译进Nginx，因为Nginx的HTTP模块需要靠它来解析正则表达式。另外，pcre-devel是使用PCRE做二次开发时所需要的开发库，包括头文件等，这也是编译Nginx所必须使用的。
+</span><span id="__span-0-7">
+</span><span id="__span-0-8">(2）zlib库  
+</span><span id="__span-0-9">zlib库用于对HTTP包的内容做gzip格式的压缩，如果我们在nginx.conf中配置了gzip on，并指定对于某些类型（content-type）的HTTP响应使用gzip来进行压缩以减少网络传输量，则在编译时就必须把zlib编译进Nginx。zlib-devel是二次开发所需要的库。
+</span><span id="__span-0-10">
+</span><span id="__span-0-11">（3）OpenSSL库  
+</span><span id="__span-0-12">如果服务器不只是要支持HTTP，还需要在更安全的SSL协议上传输HTTP，那么需要拥有OpenSSL。另外，如果我们想使用MD5、SHA1等散列函数，那么也需要安装它。
+</span></code></pre></div></td></tr></table></div><blockquote>
+<p>官方文档:https://nginx.org/en/docs/configure.html
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><span class="c1"># 安装nginx软件常见必要依赖</span>
+</span><span id="__span-1-2">yum<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>pcre<span class="w"> </span>pcre-devel<span class="w"> </span>openssl<span class="w"> </span>openssl-devel<span class="w"> </span>zlib<span class="w"> </span>zlib-devel<span class="w"> </span>gcc<span class="w"> </span>gcc-c++
+</span><span id="__span-1-3">
+</span><span id="__span-1-4"><span class="c1"># 创建nginx用户，用来运行nginx软件</span>
+</span><span id="__span-1-5">groupadd<span class="w"> </span>-g<span class="w"> </span><span class="m">666</span><span class="w"> </span>nginx
+</span><span id="__span-1-6">useradd<span class="w"> </span>-u<span class="w"> </span><span class="m">666</span><span class="w"> </span>-g<span class="w"> </span>nginx<span class="w"> </span>-s<span class="w"> </span>/bin/false<span class="w"> </span>-M<span class="w"> </span>nginx
+</span><span id="__span-1-7"><span class="c1"># 根据需求，需要开哪些模块，编译时就选哪些模块</span>
+</span></code></pre></div></td></tr></table></div></p>
+</blockquote>
+</li>
+<li>官方yum源安装
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="o">[</span>root@slave2<span class="w"> </span>yum.repos.d<span class="o">]</span><span class="c1"># cat nginx.repo </span>
+</span><span id="__span-2-2"><span class="o">[</span>nginx-stable<span class="o">]</span>
+</span><span id="__span-2-3"><span class="nv">name</span><span class="o">=</span>nginx<span class="w"> </span>stable<span class="w"> </span>repo
+</span><span id="__span-2-4"><span class="nv">baseurl</span><span class="o">=</span>http://nginx.org/packages/centos/<span class="nv">$releasever</span>/<span class="nv">$basearch</span>/
+</span><span id="__span-2-5"><span class="nv">gpgcheck</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-2-6"><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-2-7"><span class="nv">gpgkey</span><span class="o">=</span>https://nginx.org/keys/nginx_signing.key
+</span><span id="__span-2-8"><span class="nv">module_hotfixes</span><span class="o">=</span><span class="nb">true</span>
+</span><span id="__span-2-9">
+</span><span id="__span-2-10"><span class="o">[</span>nginx-mainline<span class="o">]</span>
+</span><span id="__span-2-11"><span class="nv">name</span><span class="o">=</span>nginx<span class="w"> </span>mainline<span class="w"> </span>repo
+</span><span id="__span-2-12"><span class="nv">baseurl</span><span class="o">=</span>http://nginx.org/packages/mainline/centos/<span class="nv">$releasever</span>/<span class="nv">$basearch</span>/
+</span><span id="__span-2-13"><span class="nv">gpgcheck</span><span class="o">=</span><span class="m">1</span>
+</span><span id="__span-2-14"><span class="nv">enabled</span><span class="o">=</span><span class="m">0</span>
+</span><span id="__span-2-15"><span class="nv">gpgkey</span><span class="o">=</span>https://nginx.org/keys/nginx_signing.key
+</span><span id="__span-2-16"><span class="nv">module_hotfixes</span><span class="o">=</span><span class="nb">true</span>
+</span></code></pre></div></td></tr></table></div></li>
+</ol>
+<h2 id="2nginxupdating">2.nginx配置多虚拟主机（updating。。。）<a class="headerlink" href="#2nginxupdating" title="Permanent link">&para;</a></h2>
+<ol>
+<li>基于多IP的虚拟主机配置</li>
+<li>基于多端口的虚拟主机配置</li>
+<li>基于多域名的虚拟主机配置</li>
+</ol>
+<h2 id="3nginx">3.nginx日志配置<a class="headerlink" href="#3nginx" title="Permanent link">&para;</a></h2>
+<ol>
+<li>全局日志配置</li>
+<li>单站点日志配置独立的访问日志，按业务分类</li>
+<li>错误日志配置</li>
+<li>日志添加nginx内置变量</li>
+</ol>
+<blockquote>
+<p><a href="https://nginx.org/en/docs/">nginx官方文档: https://nginx.org/en/docs/</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/2122754">nginx七层负载均衡方案参考：https://cloud.tencent.com/developer/article/2122754</a></p>
+</blockquote>
+<h2 id="4nginx">4.nginx配置反向代理<a class="headerlink" href="#4nginx" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="c1"># 以下是一个示例配置，用于将请求反向代理到本地的 8080 端口：</span>
+</span><span id="__span-3-2">http<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-3-3"><span class="w">    </span>server<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-3-4"><span class="w">        </span>listen<span class="w"> </span><span class="m">80</span><span class="p">;</span>
+</span><span id="__span-3-5"><span class="w">        </span>server_name<span class="w"> </span>localhost<span class="p">;</span><span class="w"> </span><span class="c1"># 你的域名</span>
+</span><span id="__span-3-6"><span class="w">        </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-3-7"><span class="w">            </span>proxy_pass<span class="w"> </span>http://127.0.0.1:8080<span class="p">;</span>
+</span><span id="__span-3-8"><span class="w">            </span>proxy_set_header<span class="w"> </span>Host<span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-3-9"><span class="w">            </span>proxy_set_header<span class="w"> </span>X-Real-IP<span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-3-10"><span class="w">            </span>proxy_set_header<span class="w"> </span>X-Forwarded-For<span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-3-11"><span class="w">        </span><span class="o">}</span>
+</span><span id="__span-3-12"><span class="w">    </span><span class="o">}</span>
+</span><span id="__span-3-13"><span class="o">}</span>
+</span><span id="__span-3-14">
+</span><span id="__span-3-15">
+</span><span id="__span-3-16"><span class="c1"># location /：表示匹配所有 URI 的 location 块。就是说，这个 location 块会处理所有发送到 Nginx 服务器的请求，不管 URI 是什么。</span>
+</span><span id="__span-3-17">
+</span><span id="__span-3-18"><span class="c1"># location 是 Nginx 配置中的一个关键指令，用于根据请求的 URI 来进行相应的处理请求。</span>
+</span><span id="__span-3-19">
+</span><span id="__span-3-20"><span class="c1"># 以下是一些常见的 location 使用示例：</span>
+</span><span id="__span-3-21"><span class="c1">#1. location /: 匹配所有请求，包括根路径（例如 http://yourserver.com/）。</span>
+</span><span id="__span-3-22"><span class="c1">#2. location /api/: 匹配以 /api/ 开头的所有请求，包括/api/（例如 http://yourserver.com/api/users）。</span>
+</span><span id="__span-3-23"><span class="c1">#3. location /static/: 匹配以 /static/ 开头的所有请求（例如 http://yourserver.com/static/css/style.css）。</span>
+</span><span id="__span-3-24"><span class="c1">#4. location ~* \.(jpg|jpeg|png)$: 匹配所有以 .jpg, .jpeg, 或 .png 结尾的请求，无论它们位于哪个路径下。</span>
+</span><span id="__span-3-25"><span class="c1">#5. location = /path 精准匹配，只匹配/path这个请求路径</span>
+</span></code></pre></div></td></tr></table></div>
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1">http<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-4-2"><span class="w">    </span>server<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-4-3"><span class="w">        </span>listen<span class="w"> </span><span class="m">80</span><span class="p">;</span>
+</span><span id="__span-4-4">
+</span><span id="__span-4-5"><span class="w">        </span>location<span class="w"> </span>/api/<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-4-6"><span class="w">            </span>proxy_pass<span class="w"> </span>http://127.0.0.1:8000<span class="p">;</span>
+</span><span id="__span-4-7"><span class="w">            </span>proxy_set_header<span class="w"> </span>Host<span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-4-8"><span class="w">            </span>proxy_set_header<span class="w"> </span>X-Real-IP<span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-4-9"><span class="w">            </span>proxy_set_header<span class="w"> </span>X-Forwarded-For<span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-4-10"><span class="w">        </span><span class="o">}</span>
+</span><span id="__span-4-11">
+</span><span id="__span-4-12"><span class="w">        </span>location<span class="w"> </span>/static/<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-4-13"><span class="w">            </span>proxy_pass<span class="w"> </span>http://127.0.0.1:8001<span class="p">;</span>
+</span><span id="__span-4-14"><span class="w">            </span>proxy_set_header<span class="w"> </span>Host<span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-4-15"><span class="w">            </span>proxy_set_header<span class="w"> </span>X-Real-IP<span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-4-16"><span class="w">            </span>proxy_set_header<span class="w"> </span>X-Forwarded-For<span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-4-17"><span class="w">        </span><span class="o">}</span>
+</span><span id="__span-4-18">
+</span><span id="__span-4-19"><span class="w">        </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-4-20"><span class="w">            </span>proxy_pass<span class="w"> </span>http://127.0.0.1:8002<span class="p">;</span>
+</span><span id="__span-4-21"><span class="w">            </span>proxy_set_header<span class="w"> </span>Host<span class="w"> </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-4-22"><span class="w">            </span>proxy_set_header<span class="w"> </span>X-Real-IP<span class="w"> </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-4-23"><span class="w">            </span>proxy_set_header<span class="w"> </span>X-Forwarded-For<span class="w"> </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-4-24"><span class="w">        </span><span class="o">}</span>
+</span><span id="__span-4-25"><span class="w">    </span><span class="o">}</span>
+</span><span id="__span-4-26"><span class="o">}</span>
+</span><span id="__span-4-27">
+</span><span id="__span-4-28"><span class="c1">#注意：Nginx 会按照配置文件中 location 块的顺序进行匹配，一旦找到匹配的 location，就会停止查找。因此，你应该将最特殊的 location（例如，以特定前缀开始的路径）放在最上面，将最通用的 location（例如，用于匹配所有其他请求的路径）放在最下面。</span>
+</span></code></pre></div></td></tr></table></div>
+<h2 id="5nginxupstream">5.nginx配置负载均衡(upstream)<a class="headerlink" href="#5nginxupstream" title="Permanent link">&para;</a></h2>
+<ol>
+<li>热备backup
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><span class="c1"># 热备：如果你有2台服务器，当一台服务器发生事故时，才启用第二台服务器给提供服务。服务器处理请求的顺序：AAAAAA突然A挂啦，BBBBBBBBBBBBBB.....</span>
+</span><span id="__span-5-2">
+</span><span id="__span-5-3">upstream<span class="w"> </span>mysvr<span class="w"> </span><span class="o">{</span><span class="w"> </span>
+</span><span id="__span-5-4"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:7878<span class="p">;</span><span class="w"> </span>
+</span><span id="__span-5-5"><span class="w">    </span>server<span class="w"> </span><span class="m">192</span>.168.10.121:3333<span class="w"> </span>backup<span class="p">;</span><span class="w">  </span><span class="c1">#热备     </span>
+</span><span id="__span-5-6"><span class="o">}</span>
+</span></code></pre></div></td></tr></table></div></li>
+<li>轮询
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><span class="c1"># 轮询：nginx默认就是轮询其权重都默认为1，服务器处理请求的顺序：ABABABABAB....</span>
+</span><span id="__span-6-2">
+</span><span id="__span-6-3">upstream<span class="w"> </span>mysvr<span class="w"> </span><span class="o">{</span><span class="w"> </span>
+</span><span id="__span-6-4"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:7878<span class="p">;</span>
+</span><span id="__span-6-5"><span class="w">    </span>server<span class="w"> </span><span class="m">192</span>.168.10.121:3333<span class="p">;</span><span class="w">       </span>
+</span><span id="__span-6-6"><span class="o">}</span>
+</span></code></pre></div></td></tr></table></div></li>
+<li>加权轮询
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><span class="c1"># 加权轮询：跟据配置的权重的大小而分发给不同服务器不同数量的请求。如果不设置，则默认为1。下面服务器的请求顺序为：ABBABBABBABBABB....</span>
+</span><span id="__span-7-2">
+</span><span id="__span-7-3">upstream<span class="w"> </span>mysvr<span class="w"> </span><span class="o">{</span><span class="w"> </span>
+</span><span id="__span-7-4"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:7878<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>
+</span><span id="__span-7-5"><span class="w">    </span>server<span class="w"> </span><span class="m">192</span>.168.10.121:3333<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">2</span><span class="p">;</span>
+</span><span id="__span-7-6"><span class="o">}</span>
+</span></code></pre></div></td></tr></table></div></li>
+<li>ip_hash
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><span class="c1"># ip_hash:nginx会让相同的客户端ip请求相同的服务器。</span>
+</span><span id="__span-8-2">
+</span><span id="__span-8-3">upstream<span class="w"> </span>mysvr<span class="w"> </span><span class="o">{</span><span class="w"> </span>
+</span><span id="__span-8-4"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:7878<span class="p">;</span><span class="w"> </span>
+</span><span id="__span-8-5"><span class="w">    </span>server<span class="w"> </span><span class="m">192</span>.168.10.121:3333<span class="p">;</span>
+</span><span id="__span-8-6"><span class="w">    </span>ip_hash<span class="p">;</span>
+</span><span id="__span-8-7"><span class="o">}</span>
+</span></code></pre></div></td></tr></table></div></li>
+</ol>
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1"><span class="c1"># 以下是基于容器的测试</span>
+</span><span id="__span-9-2"><span class="o">[</span>root@slave2<span class="w"> </span>html<span class="o">]</span><span class="c1"># docker ps</span>
+</span><span id="__span-9-3">CONTAINER<span class="w"> </span>ID<span class="w">   </span>IMAGE<span class="w">          </span>COMMAND<span class="w">                  </span>CREATED<span class="w">          </span>STATUS<span class="w">         </span>PORTS<span class="w">                                   </span>NAMES
+</span><span id="__span-9-4">5fc8360b894c<span class="w">   </span>nginx:latest<span class="w">   </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">   </span><span class="m">5</span><span class="w"> </span>minutes<span class="w"> </span>ago<span class="w">    </span>Up<span class="w"> </span><span class="m">5</span><span class="w"> </span>minutes<span class="w">   </span><span class="m">0</span>.0.0.0:8083-&gt;80/tcp,<span class="w"> </span>:::8083-&gt;80/tcp<span class="w">   </span>nginx3
+</span><span id="__span-9-5">cfd27f5fd247<span class="w">   </span>nginx:latest<span class="w">   </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">   </span><span class="m">26</span><span class="w"> </span>minutes<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">6</span><span class="w"> </span>seconds<span class="w">   </span><span class="m">0</span>.0.0.0:8081-&gt;80/tcp,<span class="w"> </span>:::8081-&gt;80/tcp<span class="w">   </span>nginx1
+</span><span id="__span-9-6">95b734505a19<span class="w">   </span>nginx:latest<span class="w">   </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">   </span><span class="m">26</span><span class="w"> </span>minutes<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">6</span><span class="w"> </span>seconds<span class="w">   </span><span class="m">0</span>.0.0.0:8082-&gt;80/tcp,<span class="w"> </span>:::8082-&gt;80/tcp<span class="w">   </span>nginx2
+</span><span id="__span-9-7">
+</span><span id="__span-9-8"><span class="o">[</span>root@slave2<span class="w"> </span>html<span class="o">]</span><span class="c1"># cat /etc/nginx/conf.d/prox.conf </span>
+</span><span id="__span-9-9"><span class="c1"># 开启负载均衡</span>
+</span><span id="__span-9-10">upstream<span class="w"> </span>my_server<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-9-11"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:8081<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>
+</span><span id="__span-9-12"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:8082<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">3</span><span class="p">;</span>
+</span><span id="__span-9-13"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:8083<span class="w"> </span>backup<span class="p">;</span>
+</span><span id="__span-9-14"><span class="o">}</span>
+</span><span id="__span-9-15">
+</span><span id="__span-9-16">server<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-9-17"><span class="w">    </span>listen<span class="w"> </span><span class="m">80</span><span class="p">;</span>
+</span><span id="__span-9-18"><span class="w">    </span>server_name<span class="w"> </span>my_server<span class="p">;</span>
+</span><span id="__span-9-19">
+</span><span id="__span-9-20"><span class="w">    </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-9-21"><span class="w">    </span>root<span class="w"> </span>/usr/share/nginx/html<span class="p">;</span>
+</span><span id="__span-9-22"><span class="w">    </span>index<span class="w"> </span>index.html<span class="p">;</span>
+</span><span id="__span-9-23"><span class="w">    </span>proxy_pass<span class="w"> </span>http://my_server<span class="p">;</span><span class="w"> </span>
+</span><span id="__span-9-24"><span class="w">        </span>proxy_set_header<span class="w">   </span>Host<span class="w">             </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-9-25"><span class="w">        </span>proxy_set_header<span class="w">   </span>X-Real-IP<span class="w">        </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-9-26"><span class="w">        </span>proxy_set_header<span class="w">   </span>X-Forwarded-For<span class="w">  </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-9-27"><span class="o">}</span>
+</span><span id="__span-9-28"><span class="o">}</span>
+</span></code></pre></div></td></tr></table></div>
+<blockquote>
+<p>当访问该站点时(局域网IP是192.168.10.100),刷新页面4次，先出现82页面，共出现3次，然后出现一次81页面，然后依次循环!
+82：
+<img alt="Screenshot" src="../image/Pasted%20image%2020250325111110.png" />
+81：
+<img alt="Screenshot" src="../image/Pasted%20image%2020250325110813.png" />
+当将容器nginx1停掉时，刷新页面，只有82，nginx1和nginx2都停掉时，才会显示 83：
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-10-1"><span class="o">[</span>root@slave2<span class="w"> </span>html<span class="o">]</span><span class="c1"># docker stop nginx1 nginx2</span>
+</span><span id="__span-10-2">nginx1
+</span><span id="__span-10-3">nginx2
+</span><span id="__span-10-4"><span class="o">[</span>root@slave2<span class="w"> </span>html<span class="o">]</span><span class="c1"># docker ps</span>
+</span><span id="__span-10-5">CONTAINER<span class="w"> </span>ID<span class="w">   </span>IMAGE<span class="w">          </span>COMMAND<span class="w">                  </span>CREATED<span class="w">          </span>STATUS<span class="w">          </span>PORTS<span class="w">                                   </span>NAMES
+</span><span id="__span-10-6">5fc8360b894c<span class="w">   </span>nginx:latest<span class="w">   </span><span class="s2">&quot;/docker-entrypoint.…&quot;</span><span class="w">   </span><span class="m">16</span><span class="w"> </span>minutes<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">16</span><span class="w"> </span>minutes<span class="w">   </span><span class="m">0</span>.0.0.0:8083-&gt;80/tcp,<span class="w"> </span>:::8083-&gt;80/tcp<span class="w">   </span>nginx3
+</span></code></pre></div></td></tr></table></div>
+<img alt="Screenshot" src="../image/Pasted%20image%2020250325111421.png" />
+当开启了ip_hash和权重时，浏览器指挥访问权重最高的那台服务器;如果只设置了ip_hash,没有设置权重，则默认访问最开始访问的那台服务器
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-11-1"><span class="o">[</span>root@slave2<span class="w"> </span>html<span class="o">]</span><span class="c1"># cat /etc/nginx/conf.d/prox.conf </span>
+</span><span id="__span-11-2"><span class="c1"># 开启负载均衡</span>
+</span><span id="__span-11-3">upstream<span class="w"> </span>my_server<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-11-4"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:8081<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">1</span><span class="p">;</span>
+</span><span id="__span-11-5"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:8082<span class="w"> </span><span class="nv">weight</span><span class="o">=</span><span class="m">3</span><span class="p">;</span>
+</span><span id="__span-11-6"><span class="w">    </span>server<span class="w"> </span><span class="m">127</span>.0.0.1:8083<span class="p">;</span>
+</span><span id="__span-11-7"><span class="w">    </span>ip_hash<span class="p">;</span><span class="w">  </span>
+</span><span id="__span-11-8"><span class="o">}</span>
+</span><span id="__span-11-9">
+</span><span id="__span-11-10">server<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-11-11"><span class="w">    </span>listen<span class="w"> </span><span class="m">80</span><span class="p">;</span>
+</span><span id="__span-11-12"><span class="w">    </span>server_name<span class="w"> </span>my_server<span class="p">;</span>
+</span><span id="__span-11-13">
+</span><span id="__span-11-14"><span class="w">    </span>location<span class="w"> </span>/<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-11-15"><span class="w">        </span>root<span class="w"> </span>/usr/share/nginx/html<span class="p">;</span>
+</span><span id="__span-11-16"><span class="w">        </span>index<span class="w"> </span>index.html<span class="p">;</span>
+</span><span id="__span-11-17"><span class="w">        </span>proxy_pass<span class="w"> </span>http://my_server<span class="p">;</span><span class="w"> </span>
+</span><span id="__span-11-18"><span class="w">        </span>proxy_set_header<span class="w">   </span>Host<span class="w">             </span><span class="nv">$host</span><span class="p">;</span>
+</span><span id="__span-11-19"><span class="w">        </span>proxy_set_header<span class="w">   </span>X-Real-IP<span class="w">        </span><span class="nv">$remote_addr</span><span class="p">;</span>
+</span><span id="__span-11-20"><span class="w">        </span>proxy_set_header<span class="w">   </span>X-Forwarded-For<span class="w">  </span><span class="nv">$proxy_add_x_forwarded_for</span><span class="p">;</span>
+</span><span id="__span-11-21"><span class="o">}</span>
+</span><span id="__span-11-22"><span class="o">}</span>
+</span></code></pre></div></td></tr></table></div></p>
+</blockquote>
+<p><div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-12-1">关于nginx负载均衡配置的几个状态参数讲解。
+</span><span id="__span-12-2">
+</span><span id="__span-12-3">- down，表示当前的server暂时不参与负载均衡。
+</span><span id="__span-12-4">
+</span><span id="__span-12-5">- backup，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。
+</span><span id="__span-12-6">
+</span><span id="__span-12-7">- max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。
+</span><span id="__span-12-8">
+</span><span id="__span-12-9">- fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。
+</span><span id="__span-12-10">
+</span><span id="__span-12-11">- least_conn, 该策略会将请求分配到连接数最少的服务上。
+</span></code></pre></div></td></tr></table></div>
+5. 第三方策略
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-13-1">Nginx支持集成第三方的策略插件。
+</span><span id="__span-13-2">
+</span><span id="__span-13-3">比如：
+</span><span id="__span-13-4">
+</span><span id="__span-13-5">fair：此种算法可以依据页面大小和加载时间长短智能地进行负载均衡，即响应时间短的优先分配。比上面更加智能的负载均衡算法。下载安装 Nginx的upstream_fair模块。
+</span><span id="__span-13-6">url_hash：按访问 url的 hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。下载安装 Nginx 的hash软件包。
+</span></code></pre></div></td></tr></table></div></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-14-1">高可用keepalive
+</span><span id="__span-14-2">
+</span><span id="__span-14-3">
+</span><span id="__span-14-4">
+</span><span id="__span-14-5"># Tengine
+</span><span id="__span-14-6">&gt; 淘宝基于nginx开发的高性能web服务器，能抗更高并发
+</span><span id="__span-14-7">&gt; https://tengine.taobao.org/document/install.html
+</span></code></pre></div></td></tr></table></div>
+<h2 id="6nginx-keepalived">6.nginx + keepalived<a class="headerlink" href="#6nginx-keepalived" title="Permanent link">&para;</a></h2>
+<h3 id="keepalived">keepalived<a class="headerlink" href="#keepalived" title="Permanent link">&para;</a></h3>
+<p>keepalived 相关配置查看：<a href="../keepalived/">keepalived</a></p>
+<h3 id="keepalivednginx">keepalived配置nginx重启<a class="headerlink" href="#keepalivednginx" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>增加nginx重启脚本
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-15-1">vim<span class="w"> </span>/etc/keepalived/check_nginx_alive_or_not.sh
+</span><span id="__span-15-2">
+</span><span id="__span-15-3"><span class="c1">#!/bin/bash</span>
+</span><span id="__span-15-4">
+</span><span id="__span-15-5"><span class="nv">A</span><span class="o">=</span><span class="sb">`</span>ps<span class="w"> </span>-C<span class="w"> </span>nginx<span class="w"> </span>--no-header<span class="w"> </span><span class="p">|</span>wc<span class="w"> </span>-l<span class="sb">`</span>
+</span><span id="__span-15-6"><span class="c1"># 判断nginx是否宕机，如果宕机了，尝试重启</span>
+</span><span id="__span-15-7"><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$A</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="k">then</span>
+</span><span id="__span-15-8"><span class="w">    </span>/usr/local/nginx/sbin/nginx
+</span><span id="__span-15-9"><span class="w">    </span><span class="c1"># 等待一小会再次检查nginx，如果没有启动成功，则停止keepalived，使其启动备用机</span>
+</span><span id="__span-15-10"><span class="w">    </span>sleep<span class="w"> </span><span class="m">3</span>
+</span><span id="__span-15-11"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="sb">`</span>ps<span class="w"> </span>-C<span class="w"> </span>nginx<span class="w"> </span>--no-header<span class="w"> </span><span class="p">|</span>wc<span class="w"> </span>-l<span class="sb">`</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="k">then</span>
+</span><span id="__span-15-12"><span class="w">        </span>killall<span class="w"> </span>keepalived
+</span><span id="__span-15-13"><span class="w">    </span><span class="k">fi</span>
+</span><span id="__span-15-14"><span class="k">fi</span>
+</span><span id="__span-15-15">
+</span><span id="__span-15-16"><span class="c1"># 增加执行权限</span>
+</span><span id="__span-15-17">chmod<span class="w"> </span>+x<span class="w"> </span>/etc/keepalived/check_nginx_alive_or_not.sh
+</span></code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p>在 keepalived.conf 配置定时监听 nginx 状态脚本
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-16-1">vrrp_script<span class="w"> </span>check_nginx_alive<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-16-2"><span class="w">    </span>script<span class="w"> </span><span class="s2">&quot;/etc/keepalived/check_nginx_alive_or_not.sh&quot;</span>
+</span><span id="__span-16-3"><span class="w">    </span>interval<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="c1"># 每隔两秒运行上一行脚本</span>
+</span><span id="__span-16-4"><span class="w">    </span>weight<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="c1"># 如果脚本运行成功，则升级权重+10</span>
+</span><span id="__span-16-5"><span class="w">    </span><span class="c1"># weight -10 # 如果脚本运行失败，则升级权重-10</span>
+</span><span id="__span-16-6"><span class="o">}</span>
+</span></code></pre></div></td></tr></table></div></p>
+</li>
+<li>
+<p>在vrrp_instance中新增监控的脚本
+<div class="language-bash highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Bash</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-17-1"><span class="w">    </span>track_script<span class="w"> </span><span class="o">{</span>
+</span><span id="__span-17-2"><span class="w">        </span>check_nginx_alive<span class="w">   </span><span class="c1"># 追踪 nginx 脚本</span>
+</span><span id="__span-17-3"><span class="w">    </span><span class="o">}</span>
+</span></code></pre></div></td></tr></table></div></p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Peanut-1.0
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.expand", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../mkdocs/javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
