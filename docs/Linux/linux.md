@@ -33,18 +33,18 @@ ip和虚拟交换机机的IP在同一网段，网关和虚拟交换机的网关�
 https://www.linuxcool.com/ （Linux命令大全）
 
 查看系统版本号
-
+```bash
 [root@192 ~]# cat /etc/centos-release
-
+```
 查看内核参数
-
+```bash
 [root@192 ~]# uname -a
-
+```
 查看端口占用
 
 netstate -luntp | grep ...
 处理boot分区满了的办法
-
+```bash
 [root@localhost boot]# uname -r
 [root@localhost boot]# rpm -qa | grep kernel
 
@@ -56,7 +56,7 @@ netstate -luntp | grep ...
 
 
 [root@localhost boot]# df  -lh
-
+```
  
 
 ### 软件部署安装
@@ -73,91 +73,93 @@ rpm安装
 yum安装
 
 配置软件仓库
-
+```bash
 [root@192 yum.repos.d]# wget -O /etc/yum.repos.d/CentOS-Base.repo   https://mirrors.aliyun.com/repo/Centos-7.repo
 [root@192 yum.repos.d]# yum clean all
 
 
 [root@192 yum.repos.d]# yum makecache
-
+```
  
 
 #### 安装jdk
 下载jdk压缩包
 
 解压
-
+```bash
 tar -xzvf jdk-18_linux-x64_bin.tar.gz
 mv jdk-18.0.2 /usr/local/tools/
+```
 卸载openjdk
 
 yum remove ***
 
 修改配置/etc/profile
-
+```bash
 export JAVA_HOME=/usr/local/tools/jdk-18.0.2 （jdk的存放路径）​ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar​ export PATH=$PATH:$JAVA_HOME/bin
 
 source /etc/profile
 
 Java -version
+```
 
 #### 安装mysql
 下载mysql
-
+```bash
 mysql-8.0.30-1.el7.x86_64.rpm-bundle.tar
-删除自带的mariadb
-
+#删除自带的mariadb
 [root@localhost opt]# rpm -qa | grep mariadb
 [root@localhost opt]# yum list | grep mariadb*
 [root@localhost opt]# yum remove mariadb-libs.x86_64
-解压
+# 解压
 
 [root@localhost mysql]# tar -xvf mysql-8.0.30-1.el7.x86_64.rpm-bundle.tar
-安装（需要按照顺序）
+#安装（需要按照顺序）
 
 [root@localhost mysql]# rpm -ivh mysql-community-common-8.0.30-1.el7.x86_64.rpm -c --nodeps --force
 [root@localhost mysql]# rpm -ivh mysql-community-libs-8.0.30-1.el7.x86_64.rpm -c --nodeps --force
 [root@localhost mysql]# rpm -ivh mysql-community-client-8.0.30-1.el7.x86_64.rpm -c --nodeps --force
 [root@localhost mysql]# rpm -ivh mysql-community-server-8.0.30-1.el7.x86_64.rpm -c --nodeps --force
-检查[localhost mysql]# rpm -qa | grep mysql
-初始化mysql
+#检查
+[localhost mysql]# rpm -qa | grep mysql
+#初始化mysql
 
-初始化
+#初始化
 
 [root@localhost mysql]# mysqld --initialize
 
-生成初始密码
+#生成初始密码
 
 root@localhost mysql]# chown mysql:mysql /var/lib/mysql -R
 
-开启服务查看初始密码
+#开启服务查看初始密码
 
 [root@localhost mysql]# cat /var/log/mysqld.log | grep password
 
-登录mysql
+#登录mysql
 
 [root@localhost mysql]# mysql -uroot -p [enter输入复制的密码]
 
-重置密码（密码永久不过期）
+#重置密码（密码永久不过期）
 
 mysql> alter user root@'localhost' identified by 'yma666' password expire never;
 
-开放防火墙端口
+#开放防火墙端口
 
 [root@localhost mysql]# firewall-cmd --list-all
 [root@localhost mysql]# firewall-cmd --zone=public --add-port=3306/tcp --permanent
 [root@localhost mysql]# firewall-cmd --reload
-连接数据库
+#连接数据库
 
-创建用户用来外部连接数据库
+#创建用户用来外部连接数据库
 
 mysql> create user yma@'%' identified by 'yma666';
 
-授权
+#授权
 
 mysql> grant all on . to yma@'%';
 
-其他连接问题解决方案
+#其他连接问题解决方案
 
 alter user 'lzj'@'%' identified by 'zdx123zdx' password expire never;
 alter user 'root'@'localhost' identified with mysql_native_password by 'password';
@@ -168,61 +170,21 @@ alter user 'lzj'@'%' identified with mysql_native_password by 'zdx123zdx';
 
 
 alter user 'root'@'localhost' identified with mysql_native_password by 'password';
-
+```
    
 #### 安装tomcat
-
-
-
+```bash
 [root@localhost yum.repos.d]# yum -y install tomcat
-
-
-
-
 [root@localhost mysql]# rpm -qa | grep tomcat
-
-
-
-
-启动tomcat
-
-
+#启动tomcat
 [root@localhost mysql]# systemctl start tomcat.service
-
-
-
-
-开放防火墙端口
-
-
+#开放防火墙端口
 [root@localhost mysql]# firewall-cmd --zone=public --add-port=8080/tcp --permanent
-
-
-
-
-重启或重新加载（--reload）防火墙
-
-
+#重启或重新加载（--reload）防火墙
 [root@localhost mysql]# systemctl restart firewalld.service
-
-
-
-
-安装网页插件
-
-
+#安装网页插件
 [root@localhost mysql]# yum -y install tomcat-admin-webapps.noarch tomcat-webapps.noarch
-
-
-
-
-修改文件/etc/tomcat/tomcat-users.xml
-
-
-
-
-
-
+#修改文件/etc/tomcat/tomcat-users.xml
 
 8. 登录管理所有发布的应用
 http://192.168.10.11:8080/manager/html
@@ -251,15 +213,15 @@ cd /usr/java/jdk1.6.0_32/bin
 ```
 参考：https://www.jb51.net/LINUXjishu/801011.html
 
-#### 源码安装tomcat
+##### 源码安装tomcat
 下载apache-tomcat-9.0.65.tar.gz
 
 上传到服务器
 
 将文件解压到安装位置（/usr/local/tools/tomcat）
-
+```bash
 [root@localhost bin]# cp -p /usr/local/tools/tomcat/bin/catalina.sh /etc/init.d/tomcat
-
+```
 设置开机自启
 
 参考：https://blog.csdn.net/cbuy888/article/details/87190065
@@ -279,15 +241,13 @@ CATALINA_HOME=/usr/local/tools/tomcat
 配置tomcat
 
 修改端口（如下代码块）
-
+```bash
 [root@localhost conf]# vim /usr/local/tools/tomcat/conf/server.xml
     <Connector port="80" protocol="HTTP/1.1"
                connectionTimeout="20000"
                redirectPort="8443" />
 [root@localhost conf]# firewall-cmd --zone=public --add-port=80/tcp --permanent 
-配置虚拟主机（网站）
-
- 
+#配置虚拟主机（网站）
 
 [root@localhost conf]# vim /usr/local/tools/tomcat/conf/server.xml
 <Host name="www.yma.ca"  appBase="webapps"
@@ -299,11 +259,12 @@ CATALINA_HOME=/usr/local/tools/tomcat
  -->
 a
 
-
-配置SSL
+#配置SSL
 
 [root@localhost conf]# cd /usr/local/tools/jdk-18.0.2/bin
 [root@localhost bin]# ./keytool -genkey -alias tomcat -keyalg RSA -keystore /usr/local/tools/tomcat/conf/.keystore
+```
+
 ## 2.Linux系统调优
 ### 关闭selinux
 ```bash
@@ -325,19 +286,21 @@ env | grep JAVA
 ``` 
 
 ### 开机自启服务
-需要开机自启的服务
-
-sshd,远程连接需要使用此服务
-rsyslog,日志有关的软件
-networ，网络相关的软件
-crond,定时任务相关软件
-sysstat数据分析的软件
-查看目前开机自启的服务
-
+- 需要开机自启的服务
+  - sshd,远程连接需要使用此服务
+  - rsyslog,日志有关的软件
+  - networ，网络相关的软件
+  - crond,定时任务相关软件
+  - sysstat数据分析的软件
+- 查看目前开机自启的服务
+```bash
 systemctl list-unit-files|grep enabled
-关闭开机自启
-
+```
+- 关闭开机自启
+```bash
 systemctl disable postfix.service 
+```
+
 ### 设置ssh服务
 ```bash
 #编辑/etc/ssh/sshd_config
@@ -351,44 +314,49 @@ cat /etc/locale.conf
 LANG="zh_CN.UTF-8"
 ```
 ### 设置命令行历史记录数
+```bash
 [root@chao ~]# sed -i 's/^HISTSIZE=5/HISTSIZE=10/' /etc/profile
 [root@chao ~]# source /etc/profile
+```
+
 ### 锁定重要文件
 ```bash
 [root@chao ~]# chattr -i /etc/passwd /etc/shoadow /etc/group /etc/gshadow /etc/inittab
 ```
+
 ### 隐藏系统版本
 ```bash
 [root@chao ~]# echo redflag 5.9 >/etc/issue
 [root@chao ~]# cat /etc/issue
 redflag 5.9
 ```
+
 ### 通配符
 
 表3-3 Linux系统中的通配符及含义
 
-通配符	含义
-通配符	含义
-*	任意字符
-?	单个任意字符
-[a-z]	单个小写字母
-[A-Z]	单个大写字母
-[a-Z]	单个字母
-[0-9]	单个数字
-[[:alpha:]]	任意字母
-[[:upper:]]	任意大写字母
-[[:lower:]]	任意小写字母
-[[:digit:]]	所有数字
-[[:alnum:]]	任意字母加数字
-[[:punct:]]	标点符号
-转义符
-反斜杠（\）：使反斜杠后面的一个变量变为单纯的字符。
-
-单引号（' '）：转义其中所有的变量为单纯的字符串。
-
-双引号（" "）：保留其中的变量属性，不进行转义处理。
-
-反引号（）：把其中的命令执行后返回结果。
+|通配符	|含义
+|--|--|
+|*	          |任意字符
+|?	          |单个任意字符
+|[a-z]	      |单个小写字母
+|[A-Z]	      |单个大写字母
+|[a-Z]	      |单个字母
+|[0-9]	      |单个数字
+|[[:alpha:]]	|任意字母
+|[[:upper:]]	|任意大写字母
+|[[:lower:]]	|任意小写字母
+|[[:digit:]]	|所有数字
+|[[:alnum:]]	|任意字母加数字
+|[[:punct:]]	|标点符号
+|转义符
+|反斜杠（\）：使反斜杠后面的一个变量变为单纯的字符。
+|
+|单引号（' '）：转义其中所有的变量为单纯的字符串。
+|
+|双引号（" "）：保留其中的变量属性，不进行转义处理。
+|
+|反引号（）：把其中的命令执行后返回结果。
 
 ### top
 top -p ：查看指定进程的top信息
