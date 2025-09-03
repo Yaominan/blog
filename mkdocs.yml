@@ -2,9 +2,12 @@ site_name: blog
 nav:
   - Home: index.md
   - 文档:
-    - linux相关: linux.md
-    - 高可用: keepalived.md
-  - 关于我: me.md
+    - linux相关: Linux/linux.md
+    - 高可用: Linux/keepalived.md
+    - linux三剑客: Linux/三剑客.md
+    - mysql高可用配置: Linux/MYSQL+keepalived实现高可用.md
+    - nginx相关配置: Linux/NGINX.md
+  - 关于我: ME/me.md
 
 
   # [UI]
@@ -98,6 +101,10 @@ plugins:
   # https://squidfunk.github.io/mkdocs-material/plugins/tags/#meta.tags
   - tags
 markdown_extensions:
+  
+  # 支持显示表格
+  - tables:
+
   # [数学公式支持]
   # https://squidfunk.github.io/mkdocs-material/reference/math/#katex
   - pymdownx.arithmatex:
