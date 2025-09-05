@@ -7,6 +7,8 @@ nav:
     - linux三剑客: Linux/三剑客.md
     - mysql高可用配置: Linux/MYSQL+keepalived实现高可用.md
     - nginx相关配置: Linux/NGINX.md
+    - Git: GIT/git.md
+    - 容器: 容器/k8s面经.md
   - 关于我: ME/me.md
 
 
