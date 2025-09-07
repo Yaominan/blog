@@ -50,7 +50,8 @@ vrrp_instance VI_1 {
 router_id Test1         写主机名就行
 state BACKUP            根据主备机器修改  主：MASTER  备：BACKUP
 interface ens32         填写承载虚拟IP的网卡，不是固定的，需要根据机器实际的网卡名修改
-virtual_router_id 66    修改路由id的优先级，具体哪台机器是主，哪台机器是备通过这个优先级决定
+virtual_router_id 66    
+priority 100            修改路由id的优先级，具体哪台机器是主，哪台机器是备通过这个优先级决定
 authentication {
 	auth_type PASS
 	auth_pass 123456    可以改个密码

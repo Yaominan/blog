@@ -610,6 +610,31 @@ lvremove /dev/storage/vo
 vgremove storage
 pvremove /dev/sdf /dev/sdg
 ```
+
+#### ubuntu 虚拟机扩容
+
+```bash
+# 1. 硬盘重新设置容量大小后，刷新磁盘大小
+echo 1 | sudo tee /sys/class/block/nvme0n1/device/rescan
+
+# 2. 安装 growpart
+sudo apt install cloud-guest-utils -y
+
+# 3. 扩展分区
+sudo growpart /dev/nvme0n1 3
+
+# 4. 扩展物理卷
+sudo pvresize /dev/nvme0n1p3
+
+# 5. 扩展逻辑卷
+sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+
+# 6. 扩展文件系统（根据类型）
+sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv    # ext4
+# 或
+sudo xfs_growfs /                                   # xfs
+```
+
 ## 4.iptables和firewalld防火墙
 
 ### iptables

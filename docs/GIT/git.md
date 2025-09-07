@@ -1,21 +1,5 @@
 # git相关
 
-<!-- - [1. git相关](#1-git相关)
-  - [1.1. git安装](#11-git安装)
-    - [1.1.1. windows安装git](#111-windows安装git)
-    - [1.1.2. linux 安装git](#112-linux-安装git)
-  - [1.2. git 使用](#12-git-使用)
-    - [1.2.1. git 版本管理](#121-git-版本管理) -->
-- [1. git安装](#1-git安装)
-  - [1.1. windows安装git](#11-windows安装git)
-  - [1.2. linux 安装git](#12-linux-安装git)
-- [2. git 使用](#2-git-使用)
-  - [2.1. git 版本管理](#21-git-版本管理)
-- [3. Test](#3-test)
-  - [3.1. haha](#31-haha)
-
-
-
 ## 1. git安装
 
 ### 1.1. windows安装git
@@ -44,7 +28,7 @@ $
 
 
 ### 1.2. linux 安装git
-
+还没写呢。。。
 
 
 ## 2. git 使用
@@ -91,7 +75,3 @@ git pull
 git pull test1
 # pull时有冲突的话需要手动解决冲突
 ```
-
-## 3. Test
-
-### 3.1. haha

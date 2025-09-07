@@ -1,0 +1,35 @@
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: "192.168.10.80"  # ❗替换为你的主节点实际 IP
+  bindPort: 6443
+nodeRegistration:
+  name: master1                    # ❗替换为主节点主机名（可选，默认取 hostname）
+  criSocket: unix:///run/containerd/containerd.sock  # 使用 containerd
+  taints:                           # 主节点容忍污点（默认不调度普通 Pod）
+  - key: node-role.kubernetes.io/control-plane
+    effect: NoSchedule
+---
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+kubernetesVersion: v1.32.0          # 明确指定版本
+controlPlaneEndpoint: "192.168.10.80:6443"  # 主节点 IP:6443
+networking:
+  podSubnet: "192.168.0.0/16"       # 供 CNI 使用的 Pod 网段（Calico/flannel 需匹配）
+  serviceSubnet: "10.96.0.0/12"     # Service IP 范围
+  dnsDomain: "cluster.local"
+imageRepository: harbor.kris.local/k8s  # 使用阿里云镜像仓库，避免拉取失败
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: systemd                 # 与 containerd 和系统 cgroup 驱动一致
+clusterDNS:
+- 10.96.0.10                        # CoreDNS 服务 IP（通常为 serviceSubnet + .10）
+clusterDomain: cluster.local
+failSwapOn: false                    # Kubernetes v1.32 默认仍禁止 swap，设为 false 可启用（可选）
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+mode: iptables                       # 可选: ipvs（性能更好），但 iptables 更稳定
