@@ -92,6 +92,8 @@ sudo systemctl start keepalived
 
 #### 安装外部 etcd 集群
 
+[etcd高可用部署](https://www.zhaowenyu.com/etcd-doc/ops/etcd-ha-install.html)
+
 1. 安装 etcd
     ```bash
     ETCD_VER=v3.5.13
@@ -107,6 +109,13 @@ sudo systemctl start keepalived
 
     # 复制二进制文件到系统路径
     sudo cp etcd etcdctl /usr/local/bin/
+    mkdir -p /var/lib/etcd
+
+    sudo useradd -g etcd -s /sbin/nologin etcd
+    sudo chown -R etcd:etcd /var/lib/etcd
+    sudo chown etcd:etcd /usr/local/bin/etcd
+    sudo chown -R etcd:etcd /etc/etc/etcd
+
 
     ```
 
@@ -238,74 +247,77 @@ done
 ```
 
 4. 在每个节点上创建配置文件
-```bash
-# master1
-sudo mkdir -p /etc/etcd /var/lib/etcd
 
-cat << EOF | sudo tee /etc/etcd/etcd.conf
-ETCD_NAME=etcd1
-ETCD_DATA_DIR="/var/lib/etcd"
-ETCD_LISTEN_PEER_URLS="https://192.168.10.80:2380"
-ETCD_LISTEN_CLIENT_URLS="https://192.168.10.80:2379,http://127.0.0.1:2379"
-ETCD_INITIAL_ADVERTISE_PEER_URLS="https://192.168.10.80:2380"
-ETCD_ADVERTISE_CLIENT_URLS="https://192.168.10.80:2379"
-ETCD_INITIAL_CLUSTER="etcd1=https://192.168.10.80:2380,etcd2=https://192.168.10.90:2380,etcd3=https://192.168.10.100:2380"
-ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
-ETCD_INITIAL_CLUSTER_STATE="new"
-ETCD_CERT_FILE="/etc/etcd/ssl/server.pem"
-ETCD_KEY_FILE="/etc/etcd/ssl/server-key.pem"
-ETCD_CLIENT_CERT_AUTH="true"
-ETCD_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
-ETCD_PEER_CERT_FILE="/etc/etcd/ssl/server.pem"
-ETCD_PEER_KEY_FILE="/etc/etcd/ssl/server-key.pem"
-ETCD_PEER_CLIENT_CERT_AUTH="true"
-ETCD_PEER_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
-EOF
+    **注意自己etcd的版本，3.4版本之后的配置文件格式有改动，以下的配置文件是旧版本的，饿哦的版本是3.5.13，用以下的配置会导致etcd集群无法正常工作**
 
-#master2
+    ```bash
+    # master1
+    sudo mkdir -p /etc/etcd /var/lib/etcd
 
-cat << EOF | sudo tee /etc/etcd/etcd.conf
-ETCD_NAME=etcd2
-ETCD_DATA_DIR="/var/lib/etcd"
-ETCD_LISTEN_PEER_URLS="https://192.168.10.90:2380"
-ETCD_LISTEN_CLIENT_URLS="https://192.168.10.90:2379,http://127.0.0.1:2379"
-ETCD_INITIAL_ADVERTISE_PEER_URLS="https://192.168.10.90:2380"
-ETCD_ADVERTISE_CLIENT_URLS="https://192.168.10.90:2379"
-ETCD_INITIAL_CLUSTER="etcd1=https://192.168.10.80:2380,etcd2=https://192.168.10.90:2380,etcd3=https://192.168.10.100:2380"
-ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
-ETCD_INITIAL_CLUSTER_STATE="new"
-ETCD_CERT_FILE="/etc/etcd/ssl/server.pem"
-ETCD_KEY_FILE="/etc/etcd/ssl/server-key.pem"
-ETCD_CLIENT_CERT_AUTH="true"
-ETCD_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
-ETCD_PEER_CERT_FILE="/etc/etcd/ssl/server.pem"
-ETCD_PEER_KEY_FILE="/etc/etcd/ssl/server-key.pem"
-ETCD_PEER_CLIENT_CERT_AUTH="true"
-ETCD_PEER_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
-EOF
+    cat << EOF | sudo tee /etc/etcd/etcd.conf
+    ETCD_NAME=etcd1
+    ETCD_DATA_DIR="/var/lib/etcd"
+    ETCD_LISTEN_PEER_URLS="https://192.168.10.80:2380"
+    ETCD_LISTEN_CLIENT_URLS="https://192.168.10.80:2379,http://127.0.0.1:2379"
+    ETCD_INITIAL_ADVERTISE_PEER_URLS="https://192.168.10.80:2380"
+    ETCD_ADVERTISE_CLIENT_URLS="https://192.168.10.80:2379"
+    ETCD_INITIAL_CLUSTER="etcd1=https://192.168.10.80:2380,etcd2=https://192.168.10.90:2380,etcd3=https://192.168.10.100:2380"
+    ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
+    ETCD_INITIAL_CLUSTER_STATE="new"
+    ETCD_CERT_FILE="/etc/etcd/ssl/server.pem"
+    ETCD_KEY_FILE="/etc/etcd/ssl/server-key.pem"
+    ETCD_CLIENT_CERT_AUTH="true"
+    ETCD_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
+    ETCD_PEER_CERT_FILE="/etc/etcd/ssl/server.pem"
+    ETCD_PEER_KEY_FILE="/etc/etcd/ssl/server-key.pem"
+    ETCD_PEER_CLIENT_CERT_AUTH="true"
+    ETCD_PEER_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
+    EOF
+
+    #master2
+
+    cat << EOF | sudo tee /etc/etcd/etcd.conf
+    ETCD_NAME=etcd2
+    ETCD_DATA_DIR="/var/lib/etcd"
+    ETCD_LISTEN_PEER_URLS="https://192.168.10.90:2380"
+    ETCD_LISTEN_CLIENT_URLS="https://192.168.10.90:2379,http://127.0.0.1:2379"
+    ETCD_INITIAL_ADVERTISE_PEER_URLS="https://192.168.10.90:2380"
+    ETCD_ADVERTISE_CLIENT_URLS="https://192.168.10.90:2379"
+    ETCD_INITIAL_CLUSTER="etcd1=https://192.168.10.80:2380,etcd2=https://192.168.10.90:2380,etcd3=https://192.168.10.100:2380"
+    ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
+    ETCD_INITIAL_CLUSTER_STATE="new"
+    ETCD_CERT_FILE="/etc/etcd/ssl/server.pem"
+    ETCD_KEY_FILE="/etc/etcd/ssl/server-key.pem"
+    ETCD_CLIENT_CERT_AUTH="true"
+    ETCD_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
+    ETCD_PEER_CERT_FILE="/etc/etcd/ssl/server.pem"
+    ETCD_PEER_KEY_FILE="/etc/etcd/ssl/server-key.pem"
+    ETCD_PEER_CLIENT_CERT_AUTH="true"
+    ETCD_PEER_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
+    EOF
 
 
-#master3
-cat << EOF | sudo tee /etc/etcd/etcd.conf
-ETCD_NAME=etcd3
-ETCD_DATA_DIR="/var/lib/etcd"
-ETCD_LISTEN_PEER_URLS="https://192.168.10.100:2380"
-ETCD_LISTEN_CLIENT_URLS="https://192.168.10.100:2379,http://127.0.0.1:2379"
-ETCD_INITIAL_ADVERTISE_PEER_URLS="https://192.168.10.100:2380"
-ETCD_ADVERTISE_CLIENT_URLS="https://192.168.10.100:2379"
-ETCD_INITIAL_CLUSTER="etcd1=https://192.168.10.80:2380,etcd2=https://192.168.10.90:2380,etcd3=https://192.168.10.100:2380"
-ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
-ETCD_INITIAL_CLUSTER_STATE="new"
-ETCD_CERT_FILE="/etc/etcd/ssl/server.pem"
-ETCD_KEY_FILE="/etc/etcd/ssl/server-key.pem"
-ETCD_CLIENT_CERT_AUTH="true"
-ETCD_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
-ETCD_PEER_CERT_FILE="/etc/etcd/ssl/server.pem"
-ETCD_PEER_KEY_FILE="/etc/etcd/ssl/server-key.pem"
-ETCD_PEER_CLIENT_CERT_AUTH="true"
-ETCD_PEER_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
-EOF
-```
+    #master3
+    cat << EOF | sudo tee /etc/etcd/etcd.conf
+    ETCD_NAME=etcd3
+    ETCD_DATA_DIR="/var/lib/etcd"
+    ETCD_LISTEN_PEER_URLS="https://192.168.10.100:2380"
+    ETCD_LISTEN_CLIENT_URLS="https://192.168.10.100:2379,http://127.0.0.1:2379"
+    ETCD_INITIAL_ADVERTISE_PEER_URLS="https://192.168.10.100:2380"
+    ETCD_ADVERTISE_CLIENT_URLS="https://192.168.10.100:2379"
+    ETCD_INITIAL_CLUSTER="etcd1=https://192.168.10.80:2380,etcd2=https://192.168.10.90:2380,etcd3=https://192.168.10.100:2380"
+    ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster"
+    ETCD_INITIAL_CLUSTER_STATE="new"
+    ETCD_CERT_FILE="/etc/etcd/ssl/server.pem"
+    ETCD_KEY_FILE="/etc/etcd/ssl/server-key.pem"
+    ETCD_CLIENT_CERT_AUTH="true"
+    ETCD_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
+    ETCD_PEER_CERT_FILE="/etc/etcd/ssl/server.pem"
+    ETCD_PEER_KEY_FILE="/etc/etcd/ssl/server-key.pem"
+    ETCD_PEER_CLIENT_CERT_AUTH="true"
+    ETCD_PEER_TRUSTED_CA_FILE="/etc/etcd/ssl/ca.pem"
+    EOF
+    ```
 
 5. 创建 systemd 服务（所有节点）
 ```bash
@@ -351,7 +363,7 @@ ETCDCTL_API=3 etcdctl \
 
 ```
 
-7. 解决报错，3.4 之后的版本要用 yaml 配置文件
+7. 解决报错，etcd 3.4 之后的版本要用 yaml 配置文件
 
 ```bash
 ###报错
@@ -386,15 +398,18 @@ initial-cluster-token: etcd-cluster
 initial-cluster-state: new
 
 # TLS 配置
-cert-file: /etc/etcd/ssl/server.pem
-key-file: /etc/etcd/ssl/server-key.pem
-client-cert-auth: true
-trusted-ca-file: /etc/etcd/ssl/ca.pem
+key-file:
 
-peer-cert-file: /etc/etcd/ssl/server.pem
-peer-key-file: /etc/etcd/ssl/server-key.pem
-peer-client-cert-auth: true
-peer-trusted-ca-file: /etc/etcd/ssl/ca.pem
+    cert-file: /etc/etcd/ssl/server.pem
+    key-file: /etc/etcd/ssl/server-key.pem
+    client-cert-auth: true
+    trusted-ca-file: /etc/etcd/ssl/ca.pem
+
+peer-transport-security:
+    peer-cert-file: /etc/etcd/ssl/server.pem
+    peer-key-file: /etc/etcd/ssl/server-key.pem
+    peer-client-cert-auth: true
+    peer-trusted-ca-file: /etc/etcd/ssl/ca.pem
 
 # 快照
 snapshot-count: 10000
@@ -413,15 +428,16 @@ initial-cluster-token: etcd-cluster
 initial-cluster-state: new
 
 # TLS 配置
-cert-file: /etc/etcd/ssl/server.pem
-key-file: /etc/etcd/ssl/server-key.pem
-client-cert-auth: true
-trusted-ca-file: /etc/etcd/ssl/ca.pem
-
-peer-cert-file: /etc/etcd/ssl/server.pem
-peer-key-file: /etc/etcd/ssl/server-key.pem
-peer-client-cert-auth: true
-peer-trusted-ca-file: /etc/etcd/ssl/ca.pem
+key-file:
+    cert-file: /etc/etcd/ssl/server.pem
+    key-file: /etc/etcd/ssl/server-key.pem
+    client-cert-auth: true
+    trusted-ca-file: /etc/etcd/ssl/ca.pem
+peer-transport-security:
+    peer-cert-file: /etc/etcd/ssl/server.pem
+    peer-key-file: /etc/etcd/ssl/server-key.pem
+    peer-client-cert-auth: true
+    peer-trusted-ca-file: /etc/etcd/ssl/ca.pem
 
 # 快照
 snapshot-count: 10000
@@ -440,15 +456,17 @@ initial-cluster-token: etcd-cluster
 initial-cluster-state: new
 
 # TLS 配置
-cert-file: /etc/etcd/ssl/server.pem
-key-file: /etc/etcd/ssl/server-key.pem
-client-cert-auth: true
-trusted-ca-file: /etc/etcd/ssl/ca.pem
+key-file:
+    cert-file: /etc/etcd/ssl/server.pem
+    key-file: /etc/etcd/ssl/server-key.pem
+    client-cert-auth: true
+    trusted-ca-file: /etc/etcd/ssl/ca.pem
 
-peer-cert-file: /etc/etcd/ssl/server.pem
-peer-key-file: /etc/etcd/ssl/server-key.pem
-peer-client-cert-auth: true
-peer-trusted-ca-file: /etc/etcd/ssl/ca.pem
+peer-transport-security:
+    peer-cert-file: /etc/etcd/ssl/server.pem
+    peer-key-file: /etc/etcd/ssl/server-key.pem
+    peer-client-cert-auth: true
+    peer-trusted-ca-file: /etc/etcd/ssl/ca.pem
 
 # 快照
 snapshot-count: 10000
@@ -466,8 +484,8 @@ After=network.target
 
 [Service]
 Type=notify
-User=root
-Group=root
+User=etcd
+Group=etcd
 ExecStart=/usr/local/bin/etcd --config-file=/etc/etcd/etcd.conf.yml
 Restart=always
 RestartSec=10s
