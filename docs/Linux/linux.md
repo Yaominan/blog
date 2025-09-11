@@ -63,23 +63,24 @@ netstate -luntp | grep ...
 #### Linux下软件安装的几种方式
 Linux下常见的安装包有以下集中形式（名称-版本-修正版-类型）：
 
-tar包：如software-1.2.3-1.tar.gz 该形式是用打包工具tar打包的
-rpm包：如software-1.2.3-1.i386.rpm 这是Redhat Linux提供的一种报道额封装格式
-dpkg包：如software-1.2.3-1.deb 这是Debian提供的包的封装格式
-源码安装
+- tar包：如`software-1.2.3-1.tar.gz` 该形式是用打包工具tar打包的
+- rpm包：如`software-1.2.3-1.i386.rpm` 这是Redhat Linux提供的一种报道额封装格式
+- dpkg包：如`software-1.2.3-1.deb` 这是Debian提供的包的封装格式
 
-rpm安装
+1. 源码安装
 
-yum安装
+2. rpm安装
 
-配置软件仓库
-```bash
-[root@192 yum.repos.d]# wget -O /etc/yum.repos.d/CentOS-Base.repo   https://mirrors.aliyun.com/repo/Centos-7.repo
-[root@192 yum.repos.d]# yum clean all
+3. yum安装
+
+   - 配置软件仓库
+  ```bash
+  [root@192 yum.repos.d]# wget -O /etc/yum.repos.d/CentOS-Base.repo   https://mirrors.aliyun.com/repo/Centos-7.repo
+  [root@192 yum.repos.d]# yum clean all
 
 
-[root@192 yum.repos.d]# yum makecache
-```
+  [root@192 yum.repos.d]# yum makecache
+  ```
  
 
 #### 安装jdk
@@ -609,6 +610,31 @@ lvremove /dev/storage/vo
 vgremove storage
 pvremove /dev/sdf /dev/sdg
 ```
+
+#### ubuntu 虚拟机扩容
+
+```bash
+# 1. 硬盘重新设置容量大小后，刷新磁盘大小
+echo 1 | sudo tee /sys/class/block/nvme0n1/device/rescan
+
+# 2. 安装 growpart
+sudo apt install cloud-guest-utils -y
+
+# 3. 扩展分区
+sudo growpart /dev/nvme0n1 3
+
+# 4. 扩展物理卷
+sudo pvresize /dev/nvme0n1p3
+
+# 5. 扩展逻辑卷
+sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+
+# 6. 扩展文件系统（根据类型）
+sudo resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv    # ext4
+# 或
+sudo xfs_growfs /                                   # xfs
+```
+
 ## 4.iptables和firewalld防火墙
 
 ### iptables
