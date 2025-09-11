@@ -10,7 +10,7 @@ nav:
     - Git: GIT/git.md
     - 容器: 
       - k8s: 
-        - k8s面经: 容器/k8s/k8s面经.md
+        # - k8s面经: 容器/k8s/k8s面经.md
         - k8s部署: 容器/k8s/k8s部署.md
       - harbor私有仓库: 容器/docker/harbor.md
     - MAC:
