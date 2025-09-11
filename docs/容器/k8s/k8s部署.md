@@ -95,29 +95,35 @@ sudo systemctl start keepalived
 [etcd高可用部署](https://www.zhaowenyu.com/etcd-doc/ops/etcd-ha-install.html)
 
 1. 安装 etcd
-    ```bash
-    ETCD_VER=v3.5.13
-    ARCH=arm64
-    sudo apt install golang-cfssl
+```bash
+ETCD_VER=v3.5.13
+ARCH=arm64
+sudo apt install golang-cfssl
 
-    # 下载 ARM64 版本
-    wget https://github.com/etcd-io/etcd/releases/download/${ETCD_VER}/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz
+# 下载 ARM64 版本
+wget https://github.com/etcd-io/etcd/releases/download/${ETCD_VER}/etcd-${ETCD_VER}-linux-${ARCH}.tar.gz
 
-    # 解压并安装
-    tar -xzf etcd-${ETCD_VER}-linux-${ARCH}.tar.gz
-    cd etcd-${ETCD_VER}-linux-${ARCH}
+# 解压并安装
+tar -xzf etcd-${ETCD_VER}-linux-${ARCH}.tar.gz
+cd etcd-${ETCD_VER}-linux-${ARCH}
 
-    # 复制二进制文件到系统路径
-    sudo cp etcd etcdctl /usr/local/bin/
-    mkdir -p /var/lib/etcd
+# 复制二进制文件到系统路径
+sudo cp etcd etcdctl /usr/local/bin/
+mkdir -p /var/lib/etcd
 
-    sudo useradd -g etcd -s /sbin/nologin etcd
-    sudo chown -R etcd:etcd /var/lib/etcd
-    sudo chown etcd:etcd /usr/local/bin/etcd
-    sudo chown -R etcd:etcd /etc/etc/etcd
+sudo useradd -g etcd -s /sbin/nologin etcd
+sudo chown -R etcd:etcd /var/lib/etcd
+sudo chown etcd:etcd /usr/local/bin/etcd
+sudo chown -R etcd:etcd /etc/etc/etcd
 
+# etcd 进程用到的 key（server-key.pem）
+sudo chown etcd:etcd /etc/etcd/ssl/server-key.pem
+sudo chmod 600 /etc/etcd/ssl/server-key.pem
 
-    ```
+# 客户端工具用到的 key（client-key.pem）
+sudo chown root:root /etc/etcd/ssl/client-key.pem
+sudo chmod 600 /etc/etcd/ssl/client-key.pem
+```
 
 
 2. 生成证书
@@ -503,23 +509,6 @@ sudo systemctl start etcd
 
 #2. 查看日志
 sudo journalctl -u etcd -f
-```
-
-#### 
-sudo kubeadm init --config kubeadm-config.yaml --ignore-preflight-errors=Port-6443
-
-registry.aliyuncs.com/google_containers
-
-
-```
-# etcd 进程用到的 key（server-key.pem）
-sudo chown etcd:etcd /etc/etcd/ssl/server-key.pem
-sudo chmod 600 /etc/etcd/ssl/server-key.pem
-
-# 客户端工具用到的 key（client-key.pem）
-sudo chown root:root /etc/etcd/ssl/client-key.pem
-sudo chmod 600 /etc/etcd/ssl/client-key.pem
-
 
 
 # 1. 停止服务
@@ -535,8 +524,20 @@ sudo chown etcd:etcd /var/lib/etcd
 
 # 使用 etcdctl 检查健康
 sudo ETCDCTL_API=3 etcdctl \
-  --endpoints=https://127.0.0.1:2379 \
-  --cacert=/etc/etcd/ssl/ca.pem \
-  --cert=/etc/etcd/ssl/server.pem \
-  --key=/etc/etcd/ssl/server-key.pem \
-  endpoint health
+--endpoints=https://127.0.0.1:2379 \
+--cacert=/etc/etcd/ssl/ca.pem \
+--cert=/etc/etcd/ssl/server.pem \
+--key=/etc/etcd/ssl/server-key.pem \
+endpoint health
+```
+
+#### 初始化k8s集群
+```bash
+sudo kubeadm init --config kubeadm-config.yaml --ignore-preflight-errors=Port-6443
+
+# 查看nodes
+kubectl getnodes 
+
+
+
+```
