@@ -2,12 +2,14 @@ site_name: blog
 nav:
   - Home: index.md
   - 文档:
-    - linux相关: Linux/linux.md
-    - 高可用: Linux/keepalived.md
+    - linux相关: 
+      - Linux: Linux/linux.md
+      - 高可用: Linux/keepalived.md
     - linux三剑客: Linux/三剑客.md
     - mysql高可用配置: Linux/MYSQL+keepalived实现高可用.md
     - nginx相关配置: Linux/NGINX.md
     - Git: GIT/git.md
+    - CI/CD: CICD/gitlab.md
     - 容器: 
       - k8s: 
         # - k8s面经: 容器/k8s/k8s面经.md
