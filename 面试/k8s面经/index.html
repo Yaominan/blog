@@ -1,0 +1,2344 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.19">
+    
+    
+      
+        <title>K8S面经 - blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+      <link rel="stylesheet" href="../../mkdocs/css/no-footer.css">
+    
+      <link rel="stylesheet" href="../../mkdocs/css/unordered-list-symbols.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#k8s" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="blog" class="md-header__button md-logo" aria-label="blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              K8S面经
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="orange"  aria-label="切换至夜间模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换至夜间模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="orange"  aria-label="切换至日间模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换至日间模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yaominan/Yaominan.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yaominan.github.io
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Linux/linux/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  文档
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="blog" class="md-nav__button md-logo" aria-label="blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    blog
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yaominan/Yaominan.github.io" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yaominan.github.io
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    文档
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            文档
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    linux相关
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            linux相关
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/keepalived/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    高可用
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/%E4%B8%89%E5%89%91%E5%AE%A2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    linux三剑客
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/MYSQL%2Bkeepalived%E5%AE%9E%E7%8E%B0%E9%AB%98%E5%8F%AF%E7%94%A8/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    mysql高可用配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/NGINX/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    nginx相关配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GIT/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CICD/gitlab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CI/CD
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    容器
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            容器
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_7_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_7_1" id="__nav_2_7_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    k8s
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_7_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_7_1">
+            <span class="md-nav__icon md-icon"></span>
+            k8s
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%AE%B9%E5%99%A8/k8s/k8s%E9%83%A8%E7%BD%B2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    k8s部署
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../%E5%AE%B9%E5%99%A8/docker/harbor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    harbor私有仓库
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_8" id="__nav_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    MAC
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            MAC
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MAC/vm-ubuntu%20%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MAC 中 VM FUSION ubuntu 网络配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 什么是K8S？你如何理解它？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Kubernetes的组件及其作用是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Kubernetes中的基础概念有哪些？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-kubernetesdocker" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Kubernetes与Docker的关系是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Kubernetes的集群管理是如何实现的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Kubernetes的优势和适用场景
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Kubernetes的不足之处是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-minikubekubectl-kubelet" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. 什么是 Minikube、Kubectl 和 Kubelet？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-kubelet" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. kubelet的核心功能是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-kube-api-serverpod" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. kube-api-server的端口是什么？Pod如何访问它？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-kube-api-serverpod" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. kube-api-server的端口是什么？Pod如何访问它？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Pod的原理是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      13. Pod有什么特点？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      14. Pod的重启策略有哪些？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      15. Pod的镜像拉取策略有哪几种？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#16-kubernetespod" class="md-nav__link">
+    <span class="md-ellipsis">
+      16. Kubernetes针对Pod资源对象的健康监测机制？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#17" class="md-nav__link">
+    <span class="md-ellipsis">
+      17. 就绪探针与存活探针的区别是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#18" class="md-nav__link">
+    <span class="md-ellipsis">
+      18. 存活探针的属性参数有哪些？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#19-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      19. Pod的就绪探针有哪几种？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      20. Pod的就绪探针属性参数有哪些？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#21-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      21. 简单讲一下 pod创建过程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#22-kubernetespod" class="md-nav__link">
+    <span class="md-ellipsis">
+      22. Kubernetes创建pod的详细流程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#23-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      23. 简单描述一下 pod 的终止过程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#24-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      24. pod 的生命周期状态
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#25-pod-pending" class="md-nav__link">
+    <span class="md-ellipsis">
+      25. pod 一直处于 pending 状态的原因及排查方法
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#26-daemonset" class="md-nav__link">
+    <span class="md-ellipsis">
+      26. DaemonSet资源对象的特性？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#27-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      27. 删除一个 Pod 会发生什么事情？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#28-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      28. Pod 的共享资源？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#29-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      29. Pod 的初始化容器是干什么的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#30-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      30. Pod 的资源请求、限制如何定义？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#31-pod-command-args-docker-entrypoint" class="md-nav__link">
+    <span class="md-ellipsis">
+      31. Pod 的定义中有个 command 和 args 参数，这两个参数不会和 Docker 镜像的 ENTRYPOINT 冲突吗？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#32-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      32. K8s中镜像的下载策略是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      33. 标签与标签选择器的作用是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#34-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      34. K8s的负载均衡器？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#35-kubelet-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      35. kubelet 监控 Node 节点资源使用是通过什么组件来实现的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#36-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      36. Pod的状态？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#37-deployment-replicaset" class="md-nav__link">
+    <span class="md-ellipsis">
+      37. Deployment 和 ReplicaSet 有什么区别？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#38-rcrs" class="md-nav__link">
+    <span class="md-ellipsis">
+      38. RC/RS 的实现原理？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#39-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      39. Kubernetes 服务发现？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#40-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      40. k8s 发布（暴露）服务的类型有哪些？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#41-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      41. 简述 ETCD 及其特点？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#42-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      42. 简述 ETCD 适用的场景？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#43-kube-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      43. 简述 kube-proxy 作用？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#44-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      44. 如何让一个 Node 脱离集群调度（比如要停机维护，但不影响业务）？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#45-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      45. K8S 生产中遇到过哪些印象深刻的问题？怎么排查和解决的？（重点）
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#46-k8s-etcd-leader" class="md-nav__link">
+    <span class="md-ellipsis">
+      46. K8S 生产中遇到的另一个问题：ETCD 集群出现两个 Leader
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#47-nodeport-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      47. 如何通过 NodePort 方式访问 Service？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#48-k8s-qos" class="md-nav__link">
+    <span class="md-ellipsis">
+      48. K8S 的资源限制 QoS 是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#49-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      49. K8S 的数据持久化方式有哪些？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#50-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      50. K8S 的基本组成部分有哪些？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#51-k8s" class="md-nav__link">
+    <span class="md-ellipsis">
+      51. K8S 中的镜像下载策略是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#52-kube-proxyiptables" class="md-nav__link">
+    <span class="md-ellipsis">
+      52. kube-proxy的iptables模式是怎么工作的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#53-kube-proxyipvs" class="md-nav__link">
+    <span class="md-ellipsis">
+      53. kube-proxy的IPVS模式是如何运作的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#54-kube-proxyipvsiptables" class="md-nav__link">
+    <span class="md-ellipsis">
+      54. kube-proxy的IPVS和iptables模式有什么区别和相似之处？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#55-kubernetespod" class="md-nav__link">
+    <span class="md-ellipsis">
+      55. Kubernetes中的静态Pod是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#56-kubernetespod" class="md-nav__link">
+    <span class="md-ellipsis">
+      56. Kubernetes中有哪些常见的Pod调度方式？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#57-kubernetesinit" class="md-nav__link">
+    <span class="md-ellipsis">
+      57. Kubernetes的Init容器有什么作用？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#58-kubernetesdeploymentpod-deploymentkubernetesreplicasetpoddeploymentreplicasetpodpod" class="md-nav__link">
+    <span class="md-ellipsis">
+      58. Kubernetes的Deployment是如何更新Pod的？ 当创建一个Deployment时，Kubernetes会生成一个ReplicaSet并启动相应数量的Pod。如果用户更新了Deployment，系统会创建一个新的ReplicaSet，逐步替换旧的Pod副本，直到所有Pod都用新版本替换完。
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#59-kubernetesdeployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      59. Kubernetes的Deployment更新有哪几种策略？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#60-daemonsetkubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      60. DaemonSet在Kubernetes中有何特点？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#61-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      61. Kubernetes是如何实现自动扩容的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#62-kubernetesservice-kubernetesservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      62. Kubernetes的Service是如何分发请求的？ Kubernetes的Service有几种常见的请求分发策略：
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#63-kubernetesheadless-service-headless-serviceserviceclusterippod" class="md-nav__link">
+    <span class="md-ellipsis">
+      63. 什么是Kubernetes的Headless Service？ Headless Service是一种特殊的Service，它不会分配ClusterIP。它的作用是直接将后端Pod的地址列表返回给客户端，让应用程序自行处理负载分发的逻辑，适用于需要了解所有实例信息的场景。
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#64-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      64. 如何从集群外访问Kubernetes内部的服务？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#65-kubernetesingress" class="md-nav__link">
+    <span class="md-ellipsis">
+      65. Kubernetes的Ingress是怎么工作的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#66-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      66. Kubernetes有哪些镜像拉取策略？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#67-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      67. Kubernetes中的负载均衡器是如何工作的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#68-kubernetesapi-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      68. Kubernetes各组件是如何与API Server通信的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#69-kubernetesscheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      69. Kubernetes的Scheduler是怎么工作的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#70-kubernetesscheduler" class="md-nav__link">
+    <span class="md-ellipsis">
+      70. Kubernetes的Scheduler如何选择节点？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#71-kubeletkubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      71. kubelet在Kubernetes中起什么作用？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#72-kubelet" class="md-nav__link">
+    <span class="md-ellipsis">
+      72. kubelet使用什么工具监控节点资源？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#73-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      73. Kubernetes是如何保证集群安全的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#74-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      74. Kubernetes的准入控制是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#75-kubernetesrbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      75. 什么是Kubernetes的RBAC？它有什么优点？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#76-kubernetes-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      76. Kubernetes Secret 有什么用？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#77-kubernetes-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      77. Kubernetes Secret 怎么用？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#78-kubernetes-podsecuritypolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      78. 什么是 Kubernetes PodSecurityPolicy？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#79-podsecuritypolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      79. PodSecurityPolicy 能实现哪些安全策略？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#80-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      80. Kubernetes 网络模型是什么样的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#81-kubernetes-cni" class="md-nav__link">
+    <span class="md-ellipsis">
+      81. Kubernetes CNI 模型是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#82-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      82. Kubernetes 的网络策略有什么用？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#83-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      83. Kubernetes 的网络策略原理是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#84-kubernetes-flannel" class="md-nav__link">
+    <span class="md-ellipsis">
+      84. Kubernetes 中 flannel 是干嘛的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#85-kubernetes-calico" class="md-nav__link">
+    <span class="md-ellipsis">
+      85. Kubernetes 中的 Calico 网络是怎么实现的？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#86-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      86. Kubernetes 为什么需要共享存储？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#87-kubernetes-pv-pvc" class="md-nav__link">
+    <span class="md-ellipsis">
+      87. 什么是 Kubernetes 的 PV 和 PVC？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#88-kubernetes-pv" class="md-nav__link">
+    <span class="md-ellipsis">
+      88. Kubernetes 中 PV 生命周期有哪些状态？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#89-kubernetes-csi" class="md-nav__link">
+    <span class="md-ellipsis">
+      89. Kubernetes 的 CSI 是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#90-kubernetes-worker" class="md-nav__link">
+    <span class="md-ellipsis">
+      90. Kubernetes Worker 节点怎么加入集群？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#91-kubernetes-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      91. Kubernetes Pod 如何控制节点资源？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#92-requests-limits-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      92. Requests 和 Limits 如何影响 Pod 调度？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#93-kubernetes-metric-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      93. Kubernetes Metric Service 是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#94-kubernetes-efk" class="md-nav__link">
+    <span class="md-ellipsis">
+      94. Kubernetes 中如何使用 EFK 实现日志管理？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#95-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      95. Kubernetes 如何优雅地进行节点维护？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#96-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      96. 什么是 Kubernetes 集群联邦？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#97-helm" class="md-nav__link">
+    <span class="md-ellipsis">
+      97. Helm 是什么，有什么优势？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#98-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      98. Kubernetes 标签与选择器有什么作用？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#99-google-container-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      99. Google Container Engine 是什么？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#100" class="md-nav__link">
+    <span class="md-ellipsis">
+      100. 镜像的状态有哪些？
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#101-service-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      101. Service 在 Kubernetes 中是什么？
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yaominan/Yaominan.github.io/edit/main/docs/面试/k8s面经.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="k8s">K8S面经<a class="headerlink" href="#k8s" title="Permanent link">&para;</a></h1>
+<h2 id="1-k8s">1. 什么是K8S？你如何理解它？<a class="headerlink" href="#1-k8s" title="Permanent link">&para;</a></h2>
+<p>Kubernetes，简称K8S，是一个开源的容器编排平台，旨在自动化容器化应用的部署、扩展以及管理。它不仅让应用程序的部署变得简单和高效，还能自动处理许多繁琐的运维任务。K8S通过提供统一的机制，帮助开发者和运维人员更好地管理复杂的微服务架构。
+通俗来说，K8S就像是一个智能化的“调度员”，它可以高效地管理应用从启动、扩展、更新到故障恢复的整个生命周期。</p>
+<h2 id="2-kubernetes">2. Kubernetes的组件及其作用是什么？<a class="headerlink" href="#2-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 由多个核心组件构成，主要分为 Master 节点和 Node 节点：</p>
+<p>Master 节点：负责集群管理。
+Kube-API-Server：集群的访问接口，负责处理 REST API 请求。
+Kube-Controller-Manager：资源控制器，管理集群状态和自动化控制。
+Kube-Scheduler：负责资源调度，将 Pod 分配到合适的 Node 节点上。
+Etcd：分布式键值存储，用于保存集群的所有状态数据。
+Node 节点：负责实际运行容器。
+Kubelet：管理每个节点上的 Pod 生命周期，保证容器按要求运行。
+Kube-Proxy：负责网络通信，提供 Service 的负载均衡和网络代理功能。
+容器运行时：例如 Docker，用于实际运行容器。</p>
+<h2 id="3-kubernetes">3. Kubernetes中的基础概念有哪些？<a class="headerlink" href="#3-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Master：集群的控制节点，负责管理所有工作节点的调度和资源分配。
+Node（Worker）：运行实际容器的节点，是 Kubernetes 中 Pod 的宿主机。
+Pod：Kubernetes 中最小的部署单位，可以包含一个或多个容器。
+Label：给对象贴标签，用于资源的筛选和调度。
+Service：定义了 Pod 的逻辑组以及访问策略，是服务的抽象。
+Namespace：用于实现资源隔离，帮助管理集群中的多租户环境。</p>
+<h2 id="4-kubernetesdocker">4. Kubernetes与Docker的关系是什么？<a class="headerlink" href="#4-kubernetesdocker" title="Permanent link">&para;</a></h2>
+<p>Docker 是一种容器引擎，负责创建和运行容器，而 Kubernetes 则是容器编排工具，用来管理这些容器。可以说，Kubernetes 是对 Docker 的增强，它解决了单独使用 Docker 时在大规模容器集群中遇到的资源调度、自动扩展、容器健康检查等问题。</p>
+<h2 id="5-kubernetes">5. Kubernetes的集群管理是如何实现的？<a class="headerlink" href="#5-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 采用 Master-Node 架构。Master 负责管理整个集群，调度资源并监控集群健康状态。Node 则是工作节点，负责实际运行应用容器。在 Master 节点上运行的核心组件（如 Kube-API-Server、Kube-Scheduler、Kube-Controller-Manager）通过相互协作，自动化管理集群资源、调度 Pod、执行容器的自动化操作。</p>
+<h2 id="6-kubernetes">6. Kubernetes的优势和适用场景<a class="headerlink" href="#6-kubernetes" title="Permanent link">&para;</a></h2>
+<p>优势：</p>
+<p>支持多云环境和混合云部署。
+提供自动化运维，如自动扩缩容和自我修复功能。
+轻量化、弹性强，能够高效利用硬件资源。
+适用场景：</p>
+<p>大规模微服务架构。
+高并发、动态扩展的应用程序。
+容器化应用程序的持续集成和部署。</p>
+<h2 id="7-kubernetes">7. Kubernetes的不足之处是什么？<a class="headerlink" href="#7-kubernetes" title="Permanent link">&para;</a></h2>
+<p>复杂性：初期学习曲线较高，安装配置过程复杂。
+管理繁琐：大规模集群的运维管理需要较高的技术水平。
+性能：在一些简单应用场景下，使用 Kubernetes 可能导致不必要的资源消耗。</p>
+<h2 id="8-minikubekubectl-kubelet">8. 什么是 Minikube、Kubectl 和 Kubelet？<a class="headerlink" href="#8-minikubekubectl-kubelet" title="Permanent link">&para;</a></h2>
+<p>Minikube：在本地运行单节点 Kubernetes 集群的工具，适用于学习和开发测试。
+Kubectl：Kubernetes 的命令行工具，用于管理和控制集群的资源和组件。
+Kubelet：运行在每个 Node 节点上的服务，负责管理容器生命周期并与 Master 节点通信。</p>
+<h2 id="9-kubelet">9. kubelet的核心功能是什么？<a class="headerlink" href="#9-kubelet" title="Permanent link">&para;</a></h2>
+<p>kubelet 是 Kubernetes 集群中的核心组件之一，负责执行以下关键任务：</p>
+<p>节点管理：kubelet 定期向 Master 节点汇报资源使用情况，保障集群的资源调度。
+Pod 管理：kubelet 通过调用容器运行时接口，负责在节点上创建、更新、删除 Pod。
+健康检查：kubelet 定期检查容器的健康状态，通过探针决定是否重启容器。
+资源监控：通过 Metrics Server 监控 Node 和 Pod 的资源使用情况，如 CPU、内存等。</p>
+<h2 id="10-kube-api-serverpod">10. kube-api-server的端口是什么？Pod如何访问它？<a class="headerlink" href="#10-kube-api-serverpod" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 的 API Server 通常使用以下端口：</p>
+<p>8080：用于 HTTP 的 API 请求。
+6443：用于 HTTPS 的 API 请求。
+Pod 通过集群内部的 ClusterIP 服务访问 API Server，确保集群内的所有节点和 Pod 都可以通过安全的 HTTPS 端口与 API Server 交互。</p>
+<h2 id="11-kube-api-serverpod">11. kube-api-server的端口是什么？Pod如何访问它？<a class="headerlink" href="#11-kube-api-serverpod" title="Permanent link">&para;</a></h2>
+<p>Kube-api-server默认监听在6443端口，Pod通过kube-proxy组件访问API server，kube-proxy负责在Pod内部为API server提供反向代理服务。</p>
+<h2 id="12-pod">12. Pod的原理是什么？<a class="headerlink" href="#12-pod" title="Permanent link">&para;</a></h2>
+<p>在微服务架构中，通常每个容器只运行一个进程。为了将多个容器绑定在一起，并将它们作为一个单元进行管理，Kubernetes引入了Pod这一更高级的结构。Pod允许多个容器共享资源并协同工作，但不能跨多个节点运行。</p>
+<h2 id="13-pod">13. Pod有什么特点？<a class="headerlink" href="#13-pod" title="Permanent link">&para;</a></h2>
+<p>每个Pod分配唯一的IP地址，并像独立的逻辑机器一样运行；
+Pod可以包含1个或多个容器，通常每个容器运行一个进程；
+一个Pod只能运行在单个节点上，其生命周期短暂；
+每个Pod有一个“根容器” (pause容器) 负责管理其他业务容器；
+Pod中的容器共享网络命名空间和IP；
+端口冲突在同一个Pod内可能发生，不同Pod间不会；
+Pod是Kubernetes中扩缩容的基本单位。</p>
+<h2 id="14-pod">14. Pod的重启策略有哪些？<a class="headerlink" href="#14-pod" title="Permanent link">&para;</a></h2>
+<p>Pod的重启策略可以通过restartPolicy字段配置，主要有以下三种：</p>
+<p>Always: 容器退出后总是重启，默认策略；
+OnFailure: 容器异常退出时才重启；
+Never: 容器终止后不重启。</p>
+<h2 id="15-pod">15. Pod的镜像拉取策略有哪几种？<a class="headerlink" href="#15-pod" title="Permanent link">&para;</a></h2>
+<p>Pod的镜像拉取策略通过imagePullPolicy字段配置，有三种：</p>
+<p>IfNotPresent: 仅在本地不存在镜像时才拉取，默认策略；
+Always: 每次创建Pod时都从镜像仓库拉取镜像；
+Never: 仅使用本地镜像，不会主动拉取。</p>
+<h2 id="16-kubernetespod">16. Kubernetes针对Pod资源对象的健康监测机制？<a class="headerlink" href="#16-kubernetespod" title="Permanent link">&para;</a></h2>
+<p>Kubernetes通过三类探针来监测Pod健康：</p>
+<p>livenessProbe（存活探针）：检测容器是否正常运行，不健康时会重启容器；
+readinessProbe（就绪探针）：判断容器是否可以接收流量，不健康时Pod会被移出Service；
+startupProbe（启动探针）：用于避免业务启动缓慢导致的探针失败。</p>
+<h2 id="17">17. 就绪探针与存活探针的区别是什么？<a class="headerlink" href="#17" title="Permanent link">&para;</a></h2>
+<p>livenessProbe检查失败时，会重启容器，确保Pod持续运行；
+readinessProbe检查失败时，不会重启容器，只是将Pod从Service中移除，确保流量只发送到健康的Pod。</p>
+<h2 id="18">18. 存活探针的属性参数有哪些？<a class="headerlink" href="#18" title="Permanent link">&para;</a></h2>
+<p>initialDelaySeconds: 容器启动后延迟多少秒开始探测；
+periodSeconds: 探测频率，默认10秒；
+timeoutSeconds: 探测超时时间，默认1秒；
+successThreshold: 连续探测成功的次数，默认1次；
+failureThreshold: 连续探测失败的次数，默认3次。</p>
+<h2 id="19-pod">19. Pod的就绪探针有哪几种？<a class="headerlink" href="#19-pod" title="Permanent link">&para;</a></h2>
+<p>Kubernetes提供三种探测容器就绪的方式：</p>
+<p>httpGet: 通过HTTP请求探测健康状态；
+exec: 在容器内部执行命令，返回状态码判断健康；
+TCPSocket: 通过TCP Socket连接容器，判断探测成功与否。</p>
+<h2 id="20-pod">20. Pod的就绪探针属性参数有哪些？<a class="headerlink" href="#20-pod" title="Permanent link">&para;</a></h2>
+<p>initialDelaySeconds: 容器启动后延迟多少秒开始探测；
+periodSeconds: 探测的频率，默认10秒；
+timeoutSeconds: 探测超时时间，默认1秒；
+failureThreshold: 探测失败的连续次数；
+successThreshold: 探测成功的连续次数。</p>
+<h2 id="21-pod">21. 简单讲一下 pod创建过程<a class="headerlink" href="#21-pod" title="Permanent link">&para;</a></h2>
+<p>情况一、使用 kubectl run 命令创建的 pod：</p>
+<p>注意：
+kubectl run 在旧版本中创建的是 deployment，但在新的版本中创建的是 pod，其创建过程不涉及 deployment。如果是单独创建一个 pod，过程如下：</p>
+<p>用户通过 kubectl 或其他 API 客户端工具提交需要创建的 pod 信息给 apiserver；
+apiserver 验证用户权限信息，生成 pod 对象信息并存入 etcd，然后返回确认信息给客户端；
+apiserver 将 etcd 中的 pod 对象变化反馈给其他组件，其他组件使用 watch 机制跟踪变动；
+调度器 scheduler 发现有新的 pod 对象，调用算法为 pod 分配最佳主机，并将结果更新至 apiserver；
+kubelet 通过 watch 机制跟踪到分配给本节点的 pod，调用 Docker 启动容器，并反馈结果给 apiserver；
+apiserver 将 pod 状态信息存入 etcd，至此 pod 创建完毕。
+情况二、使用 deployment 创建 pod：</p>
+<p>用户通过 kubectl create 或 kubectl apply 提交创建 deployment 请求；
+apiserver 处理请求，进行身份验证，并将 deployment 信息存入 etcd，返回确认信息给客户端；
+apiserver 反馈 etcd 中对象的变化，其他组件使用 watch 机制跟踪变动；
+controller-manager 监听到 deployment 的创建，生成 ReplicaSet，并由 ReplicaSet Controller 处理；
+调度器 scheduler 通过内部算法为未调度的 pod 分配节点，并反馈结果给 apiserver；
+kubelet 监听到本节点分配的 pod，创建 pod 并启动容器，最终将状态反馈至 apiserver；
+Pod 创建成功后，ReplicaSet Controller 持续监控 pod 状态，确保副本数量与期望值一致。</p>
+<h2 id="22-kubernetespod">22. Kubernetes创建pod的详细流程<a class="headerlink" href="#22-kubernetespod" title="Permanent link">&para;</a></h2>
+<p>客户端提交创建请求，可以通过 API Server 提供的 RESTful 接口，或使用 kubectl 命令；
+API Server 处理请求，将 pod 信息存储至 etcd；
+scheduler 监控到未绑定的 pod，执行节点分配（预选、优选两个阶段）；
+将分配结果进行 pod 绑定操作，存储到 etcd；
+kubelet 从 etcd 获取 pod 清单，下载镜像并启动容器。</p>
+<h2 id="23-pod">23. 简单描述一下 pod 的终止过程<a class="headerlink" href="#23-pod" title="Permanent link">&para;</a></h2>
+<p>用户向 apiserver 发送删除 pod 命令；
+pod 对象信息更新，在宽限期内（默认 30 秒），pod 被视为 dead；
+将 pod 标记为 terminating 状态；
+kubectl 监控到 terminating 状态，启动 pod 关闭过程；
+endpoint 控制器监控到 pod 关闭，将其从 endpoint 列表中删除；
+若定义了 preStop 钩子，执行相关操作；
+容器进程收到停止信息；
+宽限期结束后，若 pod 仍运行，kubelet 请求 apiserver 设置宽限期为 0 完成删除操作。</p>
+<h2 id="24-pod">24. pod 的生命周期状态<a class="headerlink" href="#24-pod" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 的 pod 具有以下几种生命周期状态：</p>
+<p>Pending：API server 已创建 pod，但尚有一个或多个容器镜像未创建或正在下载；
+Running：pod 内的所有容器已经创建，至少有一个容器处于运行状态或正在重启；
+Succeeded：pod 内所有容器已退出且不会再重启；
+Failed：pod 内所有容器已退出，且至少有一个容器退出失败；
+Unknown：apiserver 无法获取 pod 状态，可能由于网络问题导致。</p>
+<h2 id="25-pod-pending">25. pod 一直处于 pending 状态的原因及排查方法<a class="headerlink" href="#25-pod-pending" title="Permanent link">&para;</a></h2>
+<p>Pod 处于 pending 状态可能的原因及解决方法：</p>
+<p>调度器调度失败：
+调度器无法为 pod 分配合适的 node 节点。可能的原因包括：</p>
+<p>Node 节点 CPU、内存不足；
+Pod 的资源请求超出节点可用资源；
+Node 节点存在污点，pod 没有定义容忍；
+Pod 定义了亲和性或反亲和性，无法匹配合适的节点。
+PVC 或 PV 无法动态创建：
+当 pod 使用 StatefulSet 但未正确配置存储时，pod 可能一直处于 pending 状态。可能的原因包括：</p>
+<p>StorageClassName 配置错误；
+PVC 动态创建失败；
+存储供应异常，PV 无法创建。</p>
+<h2 id="26-daemonset">26. DaemonSet资源对象的特性？<a class="headerlink" href="#26-daemonset" title="Permanent link">&para;</a></h2>
+<p>DaemonSet 这个资源对象的特点是，它会在集群中的每一个节点上都跑一个 Pod，而且每个节点上只能有一个 Pod。这跟 Deployment 不一样，Deployment 可以定义多个副本。而 DaemonSet 只会保证每个节点上有一个 Pod。</p>
+<p>所以，DaemonSet 的配置文件里是没有 replicas 这个字段的。
+除此之外，DaemonSet 的写法和 Deployment、ReplicaSet 这些资源对象基本一致。
+常见的使用场景：</p>
+<p>比如做每个节点的日志收集。
+监控每个节点的状态。</p>
+<h2 id="27-pod">27. 删除一个 Pod 会发生什么事情？<a class="headerlink" href="#27-pod" title="Permanent link">&para;</a></h2>
+<p>当你删除一个 Pod 时，Kubernetes 的 kube-apiserver 会接收到删除指令。默认情况下，Pod 会有 30 秒的优雅退出时间，超过 30 秒后，Pod 会被标记为“Terminating”状态。具体流程是这样的：</p>
+<p>Pod 会从 Service 的 endpoint 列表中被移除。
+如果 Pod 有定义停止前的钩子（preStop hook），它会在容器内被调用，主要是为了优雅停止进程。
+然后进程会接收到 SIGTERM 信号（相当于 kill -15）。
+如果超过了优雅退出时间，Pod 内的所有进程会收到 SIGKILL 信号（相当于 kill -9），强制结束。</p>
+<h2 id="28-pod">28. Pod 的共享资源？<a class="headerlink" href="#28-pod" title="Permanent link">&para;</a></h2>
+<p>Pod 里的多个容器可以共享一些系统资源，这样它们可以更好地协同工作。常见的共享资源有：</p>
+<p>PID 命名空间：Pod 里的容器可以看到彼此的进程 ID。
+网络命名空间：Pod 中的容器共享同一个 IP 地址和端口范围。
+IPC 命名空间：Pod 中的容器可以通过 SystemV IPC 或 POSIX 消息队列进行进程间通信。
+UTS 命名空间：Pod 里的容器共享同一个主机名。
+Volumes（共享存储卷）：Pod 中的所有容器可以访问在 Pod 级别定义的存储卷。</p>
+<h2 id="29-pod">29. Pod 的初始化容器是干什么的？<a class="headerlink" href="#29-pod" title="Permanent link">&para;</a></h2>
+<p>初始化容器（Init Containers）是为了在应用容器启动前，完成一些前置条件任务。它们本质上和普通容器差不多，但只会运行一次，完成任务后就结束了。</p>
+<p>初始化容器的两个主要特点：</p>
+<p>初始化容器必须完成，才会开始启动应用容器。如果某个初始化容器失败，Kubernetes 会一直重启它，直到成功为止。
+初始化容器是按顺序执行的，当前一个容器成功了，才会运行下一个。</p>
+<h2 id="30-pod">30. Pod 的资源请求、限制如何定义？<a class="headerlink" href="#30-pod" title="Permanent link">&para;</a></h2>
+<p>Pod 的资源请求和限制可以直接在它的定义文件里设置，主要包括两部分：</p>
+<p>limits：限制 Pod 能使用的最大 CPU 和内存。
+requests：Pod 启动时申请的最小 CPU 和内存。
+示例：</p>
+<p>resources:
+  limits:
+    cpu: 2         # 限制最大 CPU 为 2 核
+    memory: 2Gi    # 限制最大内存为 2 GiB
+  requests:
+    cpu: 1         # 请求 1 核 CPU
+    memory: 500Mi  # 请求 500 MiB 内存</p>
+<h2 id="31-pod-command-args-docker-entrypoint">31. Pod 的定义中有个 command 和 args 参数，这两个参数不会和 Docker 镜像的 ENTRYPOINT 冲突吗？<a class="headerlink" href="#31-pod-command-args-docker-entrypoint" title="Permanent link">&para;</a></h2>
+<p>不会冲突。</p>
+<p>Kubernetes 中的 command 和 args 参数可以覆盖 Docker 镜像中的 ENTRYPOINT 和 CMD。具体的行为是：</p>
+<p>如果 command 和 args 都没写，使用 Dockerfile 里的 ENTRYPOINT 和 CMD。
+如果只写了 command，会覆盖 ENTRYPOINT，但仍会使用 Dockerfile 里的 CMD。
+如果只写了 args，会覆盖 Dockerfile 里的 CMD，但还是会用 ENTRYPOINT。
+如果 command 和 args 都写了，Dockerfile 里的 ENTRYPOINT 和 CMD 都会被覆盖。
+这意味着，Kubernetes 允许你灵活控制容器启动时的命令和参数。</p>
+<h2 id="32-k8s">32. K8s中镜像的下载策略是什么？<a class="headerlink" href="#32-k8s" title="Permanent link">&para;</a></h2>
+<p>在 Kubernetes 中，镜像的下载策略由 imagePullPolicy 字段控制。这个策略决定了 Pod 运行时 Kubernetes 是该拉取最新镜像，还是使用已经存在的镜像。主要有三种策略：</p>
+<p>Always：每次创建 Pod 时，Kubernetes 都会去拉取最新的镜像。
+IfNotPresent：只有当本地没有该镜像时，才会拉取新镜像（默认值）。
+Never：Kubernetes 不会尝试去拉取镜像，只会使用本地已有的镜像。
+默认情况下，如果镜像的标签是 latest，策略会自动设置为 Always，其他情况则是 IfNotPresent。</p>
+<h2 id="33">33. 标签与标签选择器的作用是什么？<a class="headerlink" href="#33" title="Permanent link">&para;</a></h2>
+<p>标签（Label）是 K8s 中的一个键值对，作用是给对象（比如 Pod、Service）打上标识，以便进行管理和查询。</p>
+<p>标签选择器：通过指定某些标签，可以筛选出匹配这些标签的资源对象。
+举个例子，假设你有很多 Pod 运行在集群中，你可以通过标签选择器找到一组带有相同标签的 Pod，比如所有负责处理用户请求的 Pod。标签选择器是 Kubernetes 中进行资源管理、调度和服务发现的一个重要工具。</p>
+<h2 id="34-k8s">34. K8s的负载均衡器？<a class="headerlink" href="#34-k8s" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 的负载均衡机制通过 Service 来实现。每个 Service 会自动创建一个 Cluster IP，并对这个 IP 的流量进行负载均衡。内部使用 iptables 或者 IPVS 来把流量分发到对应的 Pod。</p>
+<p>此外，Kubernetes 还支持 外部负载均衡。对于类型为 LoadBalancer 的 Service，Kubernetes 可以和云服务商的负载均衡服务对接（比如 AWS 的 ELB、GCP 的 Load Balancer），将外部请求直接转发到集群内的 Pod。</p>
+<h2 id="35-kubelet-node">35. kubelet 监控 Node 节点资源使用是通过什么组件来实现的？<a class="headerlink" href="#35-kubelet-node" title="Permanent link">&para;</a></h2>
+<p>Kubelet 主要通过 cAdvisor（Container Advisor）来监控 Node 节点的资源使用情况。cAdvisor 能够收集和报告容器的 CPU、内存、网络、文件系统等资源的使用数据。</p>
+<p>这些数据不仅可以用于实时监控，还可以为调度决策提供依据，帮助 Kubernetes 更好地分配和管理资源。</p>
+<h2 id="36-pod">36. Pod的状态？<a class="headerlink" href="#36-pod" title="Permanent link">&para;</a></h2>
+<p>Pod 的状态可以通过 kubectl get pods 命令来查看，常见的状态有：</p>
+<p>Pending：Pod 已创建，但没有足够资源或其他原因导致无法启动。
+Running：Pod 已经成功分配到了节点上，并且至少有一个容器正在运行。
+Succeeded：Pod 中所有容器都已经正常结束，并且不会再重新启动。
+Failed：Pod 中的一个或多个容器非正常终止。
+CrashLoopBackOff：Pod 中的容器启动失败，并且 Kubernetes 会进行重启。
+这些状态能帮助我们快速了解 Pod 的运行情况，便于问题排查和处理。</p>
+<h2 id="37-deployment-replicaset">37. Deployment 和 ReplicaSet 有什么区别？<a class="headerlink" href="#37-deployment-replicaset" title="Permanent link">&para;</a></h2>
+<p>Deployment 是一个更高层次的资源对象，用于管理 Pod 和 ReplicaSet 的部署和更新。ReplicaSet（RS） 则是确保集群中有指定数量的 Pod 运行。</p>
+<p>主要区别在于：</p>
+<p>Deployment：除了管理 Pod 的副本数之外，还支持滚动更新、回滚等高级功能，适合持续集成和更新场景。
+ReplicaSet：仅负责维持固定数量的 Pod 运行，但不具备更新和回滚的能力。通常情况下，ReplicaSet 是由 Deployment 自动创建的，用户不直接操作它。</p>
+<h2 id="38-rcrs">38. RC/RS 的实现原理？<a class="headerlink" href="#38-rcrs" title="Permanent link">&para;</a></h2>
+<p>RC（ReplicationController）和 RS（ReplicaSet）的实现原理非常相似，它们的核心功能都是确保集群中始终有指定数量的 Pod 在运行。</p>
+<p>它们通过一个循环检查机制，不断监控 Pod 的数量，确保集群中总是有指定数量的副本。如果某个 Pod 挂了，它们会自动启动新的 Pod 来代替。
+当有多余的 Pod 运行时，它们会删除超出的 Pod，保持集群资源的合理分配。</p>
+<h2 id="39-kubernetes">39. Kubernetes 服务发现？<a class="headerlink" href="#39-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 提供了两种服务发现的方式：</p>
+<p>环境变量：每当新 Pod 创建时，Kubernetes 会自动注入服务的相关环境变量。
+DNS 服务发现：Kubernetes 集成了 DNS 解析系统，Service 会被分配一个 DNS 名称，其他 Pod 可以通过这个 DNS 名称进行访问。
+通常情况下，使用 DNS 进行服务发现更加灵活和高效。</p>
+<h2 id="40-k8s">40. k8s 发布（暴露）服务的类型有哪些？<a class="headerlink" href="#40-k8s" title="Permanent link">&para;</a></h2>
+<p>在 Kubernetes 中，Service 主要有以下几种类型，用于暴露应用服务：</p>
+<p>ClusterIP：集群内部的虚拟 IP，只能在集群内部访问，默认类型。
+NodePort：将 Service 暴露为集群每个节点的一个静态端口，外部流量可以通过节点的 IP 和端口访问服务。
+LoadBalancer：与云提供商的负载均衡器集成，将流量直接分发到集群内的 Pod。
+ExternalName：将 Service 映射到一个外部的 DNS 名称，用于非集群内的服务发现。</p>
+<h2 id="41-etcd">41. 简述 ETCD 及其特点？<a class="headerlink" href="#41-etcd" title="Permanent link">&para;</a></h2>
+<p>ETCD 是一个分布式键值存储系统，主要用于存储 Kubernetes 的所有集群数据和状态。它是 Kubernetes 集群的“数据库”。</p>
+<p>ETCD 的特点：</p>
+<p>强一致性：ETCD 使用 Raft 算法来保证数据的强一致性。
+高可用性：支持集群模式运行，确保即使部分节点故障，数据依然可用。
+高性能：即使在大规模集群中，ETCD 也能提供快速的读写性能。</p>
+<h2 id="42-etcd">42. 简述 ETCD 适用的场景？<a class="headerlink" href="#42-etcd" title="Permanent link">&para;</a></h2>
+<p>ETCD 适用于需要存储集群状态、配置和元数据的场景，特别是需要一致性保证的分布式系统。典型的应用场景包括：</p>
+<p>Kubernetes：存储集群的所有状态信息，包括 Pod、Service 等对象的配置。
+分布式锁：ETCD 可以用来实现分布式系统中的锁机制。
+配置管理：可以用来集中管理分布式系统的配置，并且保证配置的更新是一致的。</p>
+<h2 id="43-kube-proxy">43. 简述 kube-proxy 作用？<a class="headerlink" href="#43-kube-proxy" title="Permanent link">&para;</a></h2>
+<p>kube-proxy 是 Kubernetes 集群中的一个网络代理，它的主要作用是为每个节点提供网络路由和负载均衡。它根据 Service 的配置，为流量在集群内部做转发和分发。</p>
+<p>具体功能包括：</p>
+<p>维护网络规则：通过 iptables 或 IPVS 设置网络规则，将流量正确地转发到目标 Pod。
+负载均衡：对外部或内部的服务请求进行负载均衡，将流量分配到多个 Pod 上。</p>
+<h2 id="44-node">44. 如何让一个 Node 脱离集群调度（比如要停机维护，但不影响业务）？<a class="headerlink" href="#44-node" title="Permanent link">&para;</a></h2>
+<p>当你需要维护某个节点，但又不希望这个节点上的业务受到影响，可以使用 kubectl drain 命令。这个命令会将节点上的 Pod 安全地迁移到其他节点上，确保业务不中断。</p>
+<p>具体步骤：</p>
+<p>首先，使用 kubectl drain <node-name>，这会让 K8S 把该节点上的所有 Pod 迁移到其他节点上。
+如果有些 Pod 设置了 PodDisruptionBudget，确保你理解并满足其要求。
+维护完成后，可以使用 kubectl uncordon <node-name>，重新允许该节点参与调度。</p>
+<h2 id="45-k8s">45. K8S 生产中遇到过哪些印象深刻的问题？怎么排查和解决的？（重点）<a class="headerlink" href="#45-k8s" title="Permanent link">&para;</a></h2>
+<p>在生产环境中遇到问题是不可避免的。以下是一个我印象特别深刻的问题，分享给大家。</p>
+<p>问题：前端负载均衡服务器上的 Keepalived 出现脑裂现象。</p>
+<p>脑裂指的是本应由主服务器持有的 VIP，同时被主备服务器持有，可能导致网络流量的混乱。以下是当时的处理流程：</p>
+<p>问题表现：VIP 同时出现在主服务器和备服务器上，但奇怪的是业务并未受到明显影响。
+初步排查：查看备服务器上的日志，发现有 VRRP 超时，导致备服务器接管了 VIP。查看主服务器日志和进程状态，都显示正常。
+进一步排查：检查防火墙和 SELinux，确认它们都是关闭状态。
+数据包分析：使用 tcpdump 抓包分析，发现备服务器确实在发送 VRRP 心跳包，导致外部流量进入备服务器。
+怀疑原因：初步猜测可能是 VRRP 心跳包的时间间隔过长，检测脚本的设置也可能不合理。
+调整设置：将 VRRP 心跳包间隔从 2 秒调整为 1 秒，检测脚本的失败次数检测从连续两次失败才判定为失败。
+重新测试：重启主备服务器上的 Keepalived，一切恢复正常。
+再次复现：第二天凌晨同样时间，又出现脑裂现象。怀疑网络问题，排查了路由器，确认没有禁用 VRRP 协议。
+最终解决：根据文档，发现默认的组播模式容易冲突，改为单播模式后，问题彻底解决。
+总结：这个问题的根本原因是 Keepalived 默认使用组播模式，导致多个实例发生冲突。通过改为单播模式，保证了心跳包的唯一性，彻底解决了脑裂问题。</p>
+<h2 id="46-k8s-etcd-leader">46. K8S 生产中遇到的另一个问题：ETCD 集群出现两个 Leader<a class="headerlink" href="#46-k8s-etcd-leader" title="Permanent link">&para;</a></h2>
+<p>问题现象：搭建好的 K8S 测试集群，发现 kubectl get nodes 无法正常显示节点资源，而 kubectl get namespace 有时能显示，有时不能。</p>
+<p>排查步骤：</p>
+<p>怀疑网络插件问题：起初以为是 Calico 没有安装导致的，但仔细分析后认为即使没有网络插件，也不至于完全没有资源发现。
+怀疑 ETCD 集群问题：因为所有的 K8S 资源都是存储在 ETCD 中，开始检查 ETCD 服务。
+发现两个 Leader：查看日志发现 ETCD 集群有两个 Leader，这是不正常的，ETCD 集群应该只有一个 Leader。
+重启和修改配置无效：尝试修改配置文件、重启服务、重新颁发证书，但问题依旧。
+最终解决：删除整个 ETCD 集群，重新搭建，问题解决。
+总结：ETCD 出现多个 Leader 的原因可能是配置问题或者环境异常。在生产环境中，遇到此类问题时，一定要先做好数据备份，然后再进行进一步操作。</p>
+<h2 id="47-nodeport-service">47. 如何通过 NodePort 方式访问 Service？<a class="headerlink" href="#47-nodeport-service" title="Permanent link">&para;</a></h2>
+<p>通过 NodePort 访问 Service，意思就是在集群每个节点上暴露一个固定端口（比如 30000），所有请求都可以通过这个端口进入。你只需要访问任意一个节点的 IP 地址加上这个端口号，Kubernetes 会自动将流量路由到对应的 Service 上。</p>
+<h2 id="48-k8s-qos">48. K8S 的资源限制 QoS 是什么？<a class="headerlink" href="#48-k8s-qos" title="Permanent link">&para;</a></h2>
+<p>QoS（Quality of Service，服务质量）是 Kubernetes 用来区分不同 Pod 的资源分配方式，主要分为三类：</p>
+<p>BestEffort：Pod 中不设置任何 CPU 或内存的请求或限制。这种模式是最佛系的，只要有资源用就行，不强求。
+Burstable：Pod 中至少有一个容器设置了 CPU 或内存的请求。只要你稍微给点资源要求，Pod 就会尽力分配多余的资源。
+Guaranteed：Pod 中所有的容器都必须明确设置 CPU 和内存的请求和限制，而且两者必须相等。这是最高优先级的资源分配模式，保证你分到的资源一定够用。</p>
+<h2 id="49-k8s">49. K8S 的数据持久化方式有哪些？<a class="headerlink" href="#49-k8s" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 提供了几种常见的数据持久化方式：</p>
+<p>EmptyDir（空目录）：这是一种临时存储方式。当 Pod 启动时，K8S 会给它分配一个空目录，Pod 里所有容器都能共享使用。数据的生命周期与 Pod 一致，Pod 被删除时，数据也就没了，主要用于临时存储或容器间的共享数据。
+HostPath：这种方式允许将宿主机上的某个文件或目录挂载到 Pod 内部。相当于将宿主机的某些资源直接暴露给容器使用。
+PersistentVolume（简称 PV）：这是 Kubernetes 的一种持久化存储机制。通过 NFS、GFS 等存储后端，提供了长期存储解决方案。用户通过 PersistentVolumeClaim（简称 PVC）来向集群申请存储资源。PVC 和 PV 之间需要定义相同的访问模式和存储类，以便正确关联。</p>
+<h2 id="50-k8s">50. K8S 的基本组成部分有哪些？<a class="headerlink" href="#50-k8s" title="Permanent link">&para;</a></h2>
+<p>K8S 集群分为 Master 节点和 Node 节点，每个部分都有一些核心组件：</p>
+<p>Master 节点主要有五个组件：</p>
+<p>kubectl：客户端命令行工具，是操作 K8S 集群的入口。
+api-server：提供 REST API 接口，是集群的控制入口。
+controller-manager：负责处理后台任务，比如管理 Pod 的数量、处理节点状态等。
+kube-scheduler：负责根据资源分配情况，将 Pod 分配到合适的节点上。
+etcd：分布式键值存储，用于存储集群的配置信息和服务发现数据。
+Node 节点有三个主要组件：</p>
+<p>kubelet：运行在每个节点上，负责管理容器并报告状态。
+kube-proxy：管理 Pod 的网络，确保流量能正确转发。
+容器运行时：Docker 或 rkt，负责实际运行容器。</p>
+<h2 id="51-k8s">51. K8S 中的镜像下载策略是什么？<a class="headerlink" href="#51-k8s" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 提供了三种镜像下载策略，通过 imagePullPolicy 字段来配置：</p>
+<p>Always：如果镜像标签是 latest，K8S 会始终从远程仓库拉取最新的镜像。
+IfNotPresent：只有当本地没有相应的镜像时，才从远程仓库拉取镜像。
+Never：K8S 禁止从远程仓库拉取镜像，只能使用本地已有的镜像。
+可以通过命令 kubectl explain pod.spec.containers 来查看详细说明。</p>
+<h2 id="52-kube-proxyiptables">52. kube-proxy的iptables模式是怎么工作的？<a class="headerlink" href="#52-kube-proxyiptables" title="Permanent link">&para;</a></h2>
+<p>kube-proxy在Kubernetes 1.2版本后默认启用了iptables模式。简单来说，在这种模式下，kube-proxy不再是个真正的代理，而是通过监听Kubernetes API Server来捕捉Service和Endpoint的变化，并动态更新iptables的规则。这样，客户端请求就可以直接通过iptables的NAT机制被路由到目标Pod，而不再需要经过kube-proxy本身。</p>
+<h2 id="53-kube-proxyipvs">53. kube-proxy的IPVS模式是如何运作的？<a class="headerlink" href="#53-kube-proxyipvs" title="Permanent link">&para;</a></h2>
+<p>从Kubernetes 1.11版本开始，IPVS模式被稳定下来。IPVS是专为高性能负载均衡设计的，使用哈希表等更高效的数据结构来管理规则，比iptables模式能支持更大规模的集群。IPVS使用的是ipset，而不是iptables的线性规则链，这让它在处理大量规则时性能表现更出色。</p>
+<h2 id="54-kube-proxyipvsiptables">54. kube-proxy的IPVS和iptables模式有什么区别和相似之处？<a class="headerlink" href="#54-kube-proxyipvsiptables" title="Permanent link">&para;</a></h2>
+<p>虽然IPVS和iptables都基于Netfilter，但它们用途不同。iptables更像是个防火墙工具，而IPVS则专门为高性能负载均衡设计。在大规模集群中，IPVS表现更好，支持多种负载均衡算法，比如最少连接和加权等。此外，IPVS还自带健康检查和连接重试功能。</p>
+<h2 id="55-kubernetespod">55. Kubernetes中的静态Pod是什么？<a class="headerlink" href="#55-kubernetespod" title="Permanent link">&para;</a></h2>
+<p>静态Pod是由kubelet直接管理的Pod，通常只存在于特定的节点上，不受API Server的控制，也不会被其他控制器（比如Deployment）管理。这类Pod只能在kubelet所在的节点上运行，集群调度和健康检查对它们不起作用。</p>
+<h2 id="56-kubernetespod">56. Kubernetes中有哪些常见的Pod调度方式？<a class="headerlink" href="#56-kubernetespod" title="Permanent link">&para;</a></h2>
+<p>Kubernetes支持几种常见的调度方式：</p>
+<p>Deployment/ReplicationController：自动管理Pod的多副本，保持指定数量的副本运行。
+NodeSelector：通过标签将Pod固定调度到特定节点上。
+NodeAffinity：定义Pod和节点的亲和性规则，分为硬性必须满足的规则和可优先选择的软规则。
+Taints和Tolerations：Taints可以让节点拒绝某些Pod，而Toleration允许Pod在标记了Taint的节点上运行。</p>
+<h2 id="57-kubernetesinit">57. Kubernetes的Init容器有什么作用？<a class="headerlink" href="#57-kubernetesinit" title="Permanent link">&para;</a></h2>
+<p>初始化容器（Init Containers）是在应用容器启动前运行的特殊容器。它们按顺序执行，只有所有Init容器完成后，应用容器才会启动。它们常用于执行一些必须在应用容器启动前完成的任务，比如文件准备或依赖检查。</p>
+<h2 id="58-kubernetesdeploymentpod-deploymentkubernetesreplicasetpoddeploymentreplicasetpodpod">58. Kubernetes的Deployment是如何更新Pod的？ 当创建一个Deployment时，Kubernetes会生成一个ReplicaSet并启动相应数量的Pod。如果用户更新了Deployment，系统会创建一个新的ReplicaSet，逐步替换旧的Pod副本，直到所有Pod都用新版本替换完。<a class="headerlink" href="#58-kubernetesdeploymentpod-deploymentkubernetesreplicasetpoddeploymentreplicasetpodpod" title="Permanent link">&para;</a></h2>
+<h2 id="59-kubernetesdeployment">59. Kubernetes的Deployment更新有哪几种策略？<a class="headerlink" href="#59-kubernetesdeployment" title="Permanent link">&para;</a></h2>
+<p>Deployment的更新主要有两种策略：</p>
+<p>Recreate：先删除所有旧的Pod，再创建新的Pod。
+RollingUpdate：逐步替换旧Pod，同时控制最多不可用的Pod数量（maxUnavailable）和最多新增的Pod数量（maxSurge）。</p>
+<h2 id="60-daemonsetkubernetes">60. DaemonSet在Kubernetes中有何特点？<a class="headerlink" href="#60-daemonsetkubernetes" title="Permanent link">&para;</a></h2>
+<p>DaemonSet确保每个节点上都运行一个Pod，不需要手动指定副本数量。典型应用场景包括日志收集和节点监控等任务。</p>
+<h2 id="61-kubernetes">61. Kubernetes是如何实现自动扩容的？<a class="headerlink" href="#61-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes通过Horizontal Pod Autoscaler（HPA）实现自动扩缩容。HPA根据Pod的CPU等使用指标，动态调整Pod的副本数量，确保系统资源的合理利用。</p>
+<h2 id="62-kubernetesservice-kubernetesservice">62. Kubernetes的Service是如何分发请求的？ Kubernetes的Service有几种常见的请求分发策略：<a class="headerlink" href="#62-kubernetesservice-kubernetesservice" title="Permanent link">&para;</a></h2>
+<p>轮询（RoundRobin）：将请求均匀分配到所有后端Pod上。
+会话保持（SessionAffinity）：基于客户端IP地址，将同一客户端的请求固定转发到同一个Pod。</p>
+<h2 id="63-kubernetesheadless-service-headless-serviceserviceclusterippod">63. 什么是Kubernetes的Headless Service？ Headless Service是一种特殊的Service，它不会分配ClusterIP。它的作用是直接将后端Pod的地址列表返回给客户端，让应用程序自行处理负载分发的逻辑，适用于需要了解所有实例信息的场景。<a class="headerlink" href="#63-kubernetesheadless-service-headless-serviceserviceclusterippod" title="Permanent link">&para;</a></h2>
+<h2 id="64-kubernetes">64. 如何从集群外访问Kubernetes内部的服务？<a class="headerlink" href="#64-kubernetes" title="Permanent link">&para;</a></h2>
+<p>有几种方式可以从外部访问Kubernetes集群内的服务：</p>
+<p>Pod的hostPort映射：将Pod内部端口映射到物理机上。
+Service的nodePort映射：将Service的端口映射到物理机IP上，外部可以通过IP加端口访问服务。
+LoadBalancer：在公有云环境下，可以使用LoadBalancer类型的Service，依靠云服务商的负载均衡器接入外部流量。</p>
+<h2 id="65-kubernetesingress">65. Kubernetes的Ingress是怎么工作的？<a class="headerlink" href="#65-kubernetesingress" title="Permanent link">&para;</a></h2>
+<p>Ingress是一种Kubernetes资源，用于HTTP层的流量路由。它根据不同的URL路径，将流量转发到对应的Service。Ingress依赖Ingress Controller来实现负载均衡，流量通过Ingress规则直接到达Pod，绕过kube-proxy，提升了效率。</p>
+<h2 id="66-kubernetes">66. Kubernetes有哪些镜像拉取策略？<a class="headerlink" href="#66-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes有三种镜像拉取策略：</p>
+<p>Always：每次都会从远程仓库拉取镜像，适用于latest标签。
+Never：只使用本地镜像，不允许拉取。
+IfNotPresent：只有本地没有镜像时才会拉取，默认用于非latest标签的镜像。</p>
+<h2 id="67-kubernetes">67. Kubernetes中的负载均衡器是如何工作的？<a class="headerlink" href="#67-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes有两种类型的负载均衡器：</p>
+<p>内部负载均衡器：在集群内部分配Pod的请求流量。
+外部负载均衡器：在公有云环境中，将外部流量引导至集群内的Pod。</p>
+<h2 id="68-kubernetesapi-server">68. Kubernetes各组件是如何与API Server通信的？<a class="headerlink" href="#68-kubernetesapi-server" title="Permanent link">&para;</a></h2>
+<p>API Server是Kubernetes的核心，负责集群内部通信。kubelet定期向API Server报告节点状态，Controller Manager和Scheduler通过API Server监控集群资源，所有组件都通过API Server共享和存取数据。</p>
+<h2 id="69-kubernetesscheduler">69. Kubernetes的Scheduler是怎么工作的？<a class="headerlink" href="#69-kubernetesscheduler" title="Permanent link">&para;</a></h2>
+<p>Scheduler负责将新建的Pod调度到合适的节点上。它先筛选出满足条件的节点，然后给这些节点打分，选择得分最高的节点作为Pod的目标节点。</p>
+<h2 id="70-kubernetesscheduler">70. Kubernetes的Scheduler如何选择节点？<a class="headerlink" href="#70-kubernetesscheduler" title="Permanent link">&para;</a></h2>
+<p>Scheduler使用两种算法来选择节点：</p>
+<p>预选算法（Predicates）：根据资源需求筛选出符合条件的节点。
+优选算法（Priorities）：对通过预选的节点进行评分，选择得分最高的节点。</p>
+<h2 id="71-kubeletkubernetes">71. kubelet在Kubernetes中起什么作用？<a class="headerlink" href="#71-kubeletkubernetes" title="Permanent link">&para;</a></h2>
+<p>kubelet是每个节点上运行的服务，负责管理该节点上的Pod和容器。它定期向API Server汇报节点状态，并监控容器的资源使用情况。</p>
+<h2 id="72-kubelet">72. kubelet使用什么工具监控节点资源？<a class="headerlink" href="#72-kubelet" title="Permanent link">&para;</a></h2>
+<p>kubelet使用集成的cAdvisor工具来监控节点上Pod和容器的资源使用情况。它会收集CPU、内存等性能指标，帮助管理员了解资源消耗。</p>
+<h2 id="73-kubernetes">73. Kubernetes是如何保证集群安全的？<a class="headerlink" href="#73-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes通过多种机制保障集群的安全性：</p>
+<p>隔离机制：确保容器与宿主机的隔离。
+权限控制：通过用户角色管理访问权限。
+API Server认证和授权：通过HTTPS和Token对请求进行认证。
+RBAC授权：通过基于角色的访问控制机制来管理权限。</p>
+<h2 id="74-kubernetes">74. Kubernetes的准入控制是什么？<a class="headerlink" href="#74-kubernetes" title="Permanent link">&para;</a></h2>
+<p>准入控制是在API Server认证和授权之后的额外检查。如果请求不符合准入控制的策略，它将被拒绝。常见的准入控制策略包括允许所有请求、拒绝所有请求，以及确保资源请求在合理范围内等。</p>
+<h2 id="75-kubernetesrbac">75. 什么是Kubernetes的RBAC？它有什么优点？<a class="headerlink" href="#75-kubernetesrbac" title="Permanent link">&para;</a></h2>
+<p>RBAC（基于角色的访问控制）通过角色分配权限。它的优点包括：</p>
+<p>可以覆盖集群内外所有资源的权限管理。
+通过API操作，可用kubectl管理权限。
+支持动态调整，无需重启API Server。</p>
+<h2 id="76-kubernetes-secret">76. Kubernetes Secret 有什么用？<a class="headerlink" href="#76-kubernetes-secret" title="Permanent link">&para;</a></h2>
+<p>Secret 对象主要用来保存一些敏感数据，比如密码、OAuth Tokens 和 SSH 密钥。相比直接把这些信息放在 Pod 或者镜像里，放到 Secret 里更安全，而且使用起来也更方便。</p>
+<h2 id="77-kubernetes-secret">77. Kubernetes Secret 怎么用？<a class="headerlink" href="#77-kubernetes-secret" title="Permanent link">&para;</a></h2>
+<p>在创建 Pod 时，可以通过指定 Service Account 自动使用 Secret。
+可以通过把 Secret 挂载到 Pod 来使用。
+在拉取 Docker 镜像时，通过配置 Pod 的 ImagePullSecrets 来使用 Secret。</p>
+<h2 id="78-kubernetes-podsecuritypolicy">78. 什么是 Kubernetes PodSecurityPolicy？<a class="headerlink" href="#78-kubernetes-podsecuritypolicy" title="Permanent link">&para;</a></h2>
+<p>PodSecurityPolicy 是 Kubernetes 提供的一种机制，用来更细致地控制 Pod 的资源使用和安全策略。当启用了 PodSecurityPolicy 后，系统默认不允许创建 Pod，必须先创建相应的安全策略和授权策略，Pod 才能被成功创建。</p>
+<h2 id="79-podsecuritypolicy">79. PodSecurityPolicy 能实现哪些安全策略？<a class="headerlink" href="#79-podsecuritypolicy" title="Permanent link">&para;</a></h2>
+<p>特权模式：是否允许 Pod 以特权模式运行。
+宿主机资源控制：比如 hostPID，决定 Pod 是否可以共享宿主机的进程空间。
+用户和组的设置：指定容器运行时的用户 ID 或组 ID。
+权限提升：是否允许容器内的子进程提升权限。
+SELinux 配置：为容器设置 SELinux 策略。</p>
+<h2 id="80-kubernetes">80. Kubernetes 网络模型是什么样的？<a class="headerlink" href="#80-kubernetes" title="Permanent link">&para;</a></h2>
+<p>在 Kubernetes 中，每个 Pod 都有自己的 IP 地址，不管它们是不是在同一个节点上，都可以通过 IP 直接互相访问。同一个 Pod 内的容器共享一个网络命名空间，也就是可以通过 localhost 互相通信。</p>
+<h2 id="81-kubernetes-cni">81. Kubernetes CNI 模型是什么？<a class="headerlink" href="#81-kubernetes-cni" title="Permanent link">&para;</a></h2>
+<p>CNI（Container Network Interface）是 Kubernetes 用来操作和配置容器网络的规范。通过插件的形式，CNI 负责在创建和销毁容器时，分配或回收网络资源。它只关心网络分配，至于容器本身，则是通过 Docker 或其他容器工具来实现。</p>
+<h2 id="82-kubernetes">82. Kubernetes 的网络策略有什么用？<a class="headerlink" href="#82-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 的 Network Policy 允许你对 Pod 之间的网络通信进行精细化控制，可以设置哪些 Pod 能够相互访问，或者禁止某些 Pod 之间的通信，保障应用的安全。</p>
+<h2 id="83-kubernetes">83. Kubernetes 的网络策略原理是什么？<a class="headerlink" href="#83-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Network Policy 的核心原理是通过监听用户定义的策略，网络控制器把这些策略转换为实际的网络规则，并通过各个节点上的 Agent 配合 CNI 插件进行实际的网络限制。</p>
+<h2 id="84-kubernetes-flannel">84. Kubernetes 中 flannel 是干嘛的？<a class="headerlink" href="#84-kubernetes-flannel" title="Permanent link">&para;</a></h2>
+<p>Flannel 主要负责给每个 Node 上的 Docker 容器分配 IP 地址，并且通过 Overlay Network 的方式，让不同 Node 上的容器可以互相通信。</p>
+<h2 id="85-kubernetes-calico">85. Kubernetes 中的 Calico 网络是怎么实现的？<a class="headerlink" href="#85-kubernetes-calico" title="Permanent link">&para;</a></h2>
+<p>Calico 是基于 BGP 协议的三层网络方案。它通过在每个节点上运行 vRouter 来进行数据转发，并通过 BGP 协议广播路由信息，实现容器之间的通信。Calico 可以直接利用数据中心的网络结构，避免了封包解包的性能消耗，提升了网络效率。</p>
+<h2 id="86-kubernetes">86. Kubernetes 为什么需要共享存储？<a class="headerlink" href="#86-kubernetes" title="Permanent link">&para;</a></h2>
+<p>对于一些有状态的应用或者需要持久化数据的应用，Kubernetes 需要一个可靠的存储方案来保存数据。这样，即使容器重新创建，也能继续使用之前保存的数据。</p>
+<h2 id="87-kubernetes-pv-pvc">87. 什么是 Kubernetes 的 PV 和 PVC？<a class="headerlink" href="#87-kubernetes-pv-pvc" title="Permanent link">&para;</a></h2>
+<p>PV（Persistent Volume）是对底层共享存储的抽象，表示存储资源。
+PVC（Persistent Volume Claim）是用户对存储资源的申请，类似于向 Kubernetes 要求一定的存储空间。</p>
+<h2 id="88-kubernetes-pv">88. Kubernetes 中 PV 生命周期有哪些状态？<a class="headerlink" href="#88-kubernetes-pv" title="Permanent link">&para;</a></h2>
+<p>Available：还没被绑定，处于可用状态。
+Bound：已经被绑定到某个 PVC。
+Released：绑定的 PVC 被删除了，但资源还没被回收。
+Failed：资源回收失败。</p>
+<h2 id="89-kubernetes-csi">89. Kubernetes 的 CSI 是什么？<a class="headerlink" href="#89-kubernetes-csi" title="Permanent link">&para;</a></h2>
+<p>CSI（Container Storage Interface）是 Kubernetes 和存储系统对接的标准接口。通过 CSI，存储提供商可以基于标准接口开发自己的存储插件，方便 Kubernetes 对接各种存储方案。</p>
+<h2 id="90-kubernetes-worker">90. Kubernetes Worker 节点怎么加入集群？<a class="headerlink" href="#90-kubernetes-worker" title="Permanent link">&para;</a></h2>
+<p>在节点上安装 Docker、kubelet 和 kube-proxy，然后配置它们的启动参数，指定 Kubernetes Master 的地址。启动服务后，节点会自动注册到集群，成为新的 Worker。</p>
+<h2 id="91-kubernetes-pod">91. Kubernetes Pod 如何控制节点资源？<a class="headerlink" href="#91-kubernetes-pod" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 中，节点的资源主要是 CPU 和内存。在配置 Pod 时，可以通过 CPU Request 和 Memory Request 参数为每个容器指定所需的 CPU 和内存。Kubernetes 会根据这些请求值，寻找合适的节点来调度 Pod。</p>
+<h2 id="92-requests-limits-pod">92. Requests 和 Limits 如何影响 Pod 调度？<a class="headerlink" href="#92-requests-limits-pod" title="Permanent link">&para;</a></h2>
+<p>当一个 Pod 被创建时，调度器会根据 Pod 的 Requests 需求选择合适的节点。节点必须有足够的资源来满足 Pod 的 Requests，调度器才会将 Pod 分配到该节点。</p>
+<h2 id="93-kubernetes-metric-service">93. Kubernetes Metric Service 是什么？<a class="headerlink" href="#93-kubernetes-metric-service" title="Permanent link">&para;</a></h2>
+<p>从 1.10 版本开始，Kubernetes 引入了 Metrics Server 来采集集群中的核心指标数据，比如节点和 Pod 的 CPU、内存使用情况。对于自定义指标，可以通过 Prometheus 等工具进行监控。</p>
+<h2 id="94-kubernetes-efk">94. Kubernetes 中如何使用 EFK 实现日志管理？<a class="headerlink" href="#94-kubernetes-efk" title="Permanent link">&para;</a></h2>
+<p>EFK 是 Elasticsearch、Fluentd 和 Kibana 的组合。Fluentd 负责从各个节点上收集日志，Elasticsearch 负责存储，Kibana 提供 Web 界面供用户查询和分析日志。</p>
+<h2 id="95-kubernetes">95. Kubernetes 如何优雅地进行节点维护？<a class="headerlink" href="#95-kubernetes" title="Permanent link">&para;</a></h2>
+<p>在进行节点关机维护前，建议先使用 kubectl drain 把节点上的 Pod 驱逐到其他节点，确保服务不中断，然后再进行关机。</p>
+<h2 id="96-kubernetes">96. 什么是 Kubernetes 集群联邦？<a class="headerlink" href="#96-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Kubernetes 集群联邦可以将多个集群管理成一个统一的集群，这样你可以在不同的数据中心或云平台上创建集群，并通过联邦统一管理它们。</p>
+<h2 id="97-helm">97. Helm 是什么，有什么优势？<a class="headerlink" href="#97-helm" title="Permanent link">&para;</a></h2>
+<p>Helm 是 Kubernetes 的包管理工具。它能把一系列 Kubernetes 资源打包成一个 Chart，方便统一管理。对于应用开发者来说，Helm 可以打包、发布和管理应用；而对使用者来说，可以通过 Helm 快速安装、升级和回滚应用，而不需要手动编写复杂的部署文件。</p>
+<h2 id="98-kubernetes">98. Kubernetes 标签与选择器有什么作用？<a class="headerlink" href="#98-kubernetes" title="Permanent link">&para;</a></h2>
+<p>标签 是附加在资源对象上的键值对数据，用来对资源进行分类和筛选。
+标签选择器 用来表达对标签的查询条件，Kubernetes 支持基于等值和集合关系的选择器。</p>
+<h2 id="99-google-container-engine">99. Google Container Engine 是什么？<a class="headerlink" href="#99-google-container-engine" title="Permanent link">&para;</a></h2>
+<p>Google Container Engine（GKE）是基于 Kubernetes 的集群管理平台，专门用来在 Google 公有云上运行和管理容器集群。</p>
+<h2 id="100">100. 镜像的状态有哪些？<a class="headerlink" href="#100" title="Permanent link">&para;</a></h2>
+<p>Running：Pod 已经成功运行。
+Pending：Pod 已经创建，但还没有调度成功，或者正在下载镜像。
+Unknown：无法获取 Pod 状态，通常是因为无法与节点通信。</p>
+<h2 id="101-service-kubernetes">101. Service 在 Kubernetes 中是什么？<a class="headerlink" href="#101-service-kubernetes" title="Permanent link">&para;</a></h2>
+<p>Service 是 Kubernetes 用来管理多个 Pod 的负载均衡器。它通过 Label Selector 将多个 Pod 加入到同一个服务里。Service 有几种类型：</p>
+<p>ClusterIP：集群内部访问，分配一个内部 IP 供 Pod 使用。
+NodePort：外部访问，通过节点的端口暴露服务。
+LoadBalancer：外部访问，通过外部负载均衡器转发请求到节点。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Peanut-1.0
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.top", "navigation.indexes", "navigation.expand", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+        <script src="../../mkdocs/javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
