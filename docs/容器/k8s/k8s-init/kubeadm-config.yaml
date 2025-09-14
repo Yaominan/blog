@@ -1,0 +1,56 @@
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: 192.168.10.80
+  bindPort: 6443
+nodeRegistration:
+  criSocket: unix:///run/containerd/containerd.sock
+  name: master1
+
+---
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+kubernetesVersion: v1.32.8
+clusterName: kris
+controlPlaneEndpoint: "192.168.10.200:6443"
+networking:
+  podSubnet: "192.168.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
+  dnsDomain: "cluster.local"
+imageRepository: harbor.kris.local/k8s
+certificatesDir: /etc/kubernetes/pki
+
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+    serverCertSANs:
+      - "192.168.10.80"
+      - "127.0.0.1"
+      - "localhost"
+    peerCertSANs:
+      - "192.168.10.80"
+
+apiServer:
+  certSANs:
+    - "192.168.10.200"
+    - "192.168.10.80"
+    - "192.168.10.90"
+    - "192.168.10.100"
+    - "localhost"
+    - "127.0.0.1"
+    - "k8s-api.internal"
+    - "::1"
+
+---
+apiVersion: kubelet.config.k8s.io/v1beta1
+kind: KubeletConfiguration
+cgroupDriver: systemd
+clusterDNS:
+  - 10.96.0.10
+clusterDomain: cluster.local
+resolvConf: "/run/systemd/resolve/resolv.conf"
+
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+mode: iptables

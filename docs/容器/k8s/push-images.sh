@@ -3,18 +3,12 @@
 
 REGISTRY="registry.aliyuncs.com/google_containers"
 
-images=(
-  "kube-apiserver:v1.30.4"
-  "kube-controller-manager:v1.30.4"
-  "kube-scheduler:v1.30.4"
-  "kube-proxy:v1.30.4"
-  "etcd:3.5.12-0"
-  "coredns:v1.10.1"
-  "pause:3.9"
-)
+k8s_version=`kubelet --version | awk -F"v" '{print $NF}'`
+
+k8s_images=(kubeadm config images list --kubernetes-version=$k8s_version | awk -F'/' '{print $NF}')
 
 echo "正在拉取 ARM64 镜像..."
-for img in "${images[@]}"; do
+for img in "${k8s_images[@]}"; do
   docker pull ${REGISTRY}/${img}
   docker tag ${REGISTRY}/${img} registry.k8s.io/${img}
 done
